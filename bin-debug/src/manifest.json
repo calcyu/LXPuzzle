@@ -1,0 +1,11 @@
+[
+	"LXPuzzle\\MenuPanel.ts",
+	"LXPuzzle\\PlayPanel.ts",
+	"LXPuzzle\\GameContainer.ts",
+	"LXPuzzle\\ImageBtn.ts",
+	"LXPuzzle\\RadioBtn.ts",
+	"LoadingUI.ts",
+	"LXPuzzle\\ImageMenu.ts",
+	"LXPuzzle\\RadioGroup.ts",
+	"Main.ts"
+]

@@ -1,0 +1,16 @@
+{
+	"file_list": [
+		"devices/HTML5DeviceContext.js",
+		"renderer/HTML5CanvasRenderer.js",
+		"renderer/WebGLRenderer.js",
+		"renderer/webgl/WebGLUtils.js",
+		"renderer/webgl/shaders/EgretShader.js",
+		"renderer/webgl/shaders/ColorTransformShader.js",
+		"renderer/webgl/shaders/BlurShader.js",
+		"renderer/webgl/shaders/PrimitiveShader.js",
+		"renderer/webgl/WebGLShaderManager.js",
+		"net/HTML5NetContext.js",
+		"interactive/HTML5TouchContext.js",
+		"display/HTML5StageText.js"
+	]
+}

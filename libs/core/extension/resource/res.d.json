@@ -1,0 +1,18 @@
+{
+	"file_list": [
+		"events/ResourceEvent.js",
+		"core/ResourceItem.js",
+		"core/ResourceConfig.js",
+		"core/ResourceLoader.js",
+		"analyzer/AnalyzerBase.js",
+		"analyzer/BinAnalyzer.js",
+		"analyzer/ImageAnalyzer.js",
+		"analyzer/JsonAnalyzer.js",
+		"analyzer/TextAnalyzer.js",
+		"analyzer/SheetAnalyzer.js",
+		"analyzer/FontAnalyzer.js",
+		"analyzer/SoundAnalyzer.js",
+		"analyzer/XMLAnalyzer.js",
+		"Resource.js"
+	]
+}
