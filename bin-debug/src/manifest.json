@@ -1,4 +1,5 @@
 [
+	"LXPuzzle\\GameData.ts",
 	"LXPuzzle\\MenuPanel.ts",
 	"LXPuzzle\\PlayPanel.ts",
 	"LXPuzzle\\GameContainer.ts",

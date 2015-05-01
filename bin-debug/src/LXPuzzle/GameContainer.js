@@ -30,10 +30,15 @@ var LXPuzzle;
             this.menuPanel.addEventListener("StartGame", this.startGameHandler, this);
             this.addChild(this.menuPanel);
             this.playPanel = new LXPuzzle.PlayPanel();
+            this.playPanel.addEventListener("backMenu", this.backMenuHandler, this);
         };
         GameContainer.prototype.startGameHandler = function (event) {
             this.removeChild(this.menuPanel);
             this.addChild(this.playPanel);
+        };
+        GameContainer.prototype.backMenuHandler = function (event) {
+            this.removeChild(this.playPanel);
+            this.addChild(this.menuPanel);
         };
         return GameContainer;
     })(egret.DisplayObjectContainer);

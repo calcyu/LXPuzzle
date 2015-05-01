@@ -18,15 +18,15 @@ module LXPuzzle {
 
         private initView():void {
             for (var i:number = 0; i < 6; i++) {
-                var img:LXPuzzle.ImageBtn = new LXPuzzle.ImageBtn("0" + (i + 1) + "_s_jpg");
+                var img:LXPuzzle.ImageBtn = new LXPuzzle.ImageBtn("0" + (i + 1) + "_jpg");
                 if(i==0){
                     this._currImg = img;
                     this._currImg.selected = true;
                 }
-                this.addChild(img);
                 img.index = i;
                 img.x = (i % 2) * 207;
                 img.y = Math.floor(i / 2) * 168;
+                this.addChild(img);
                 img.touchEnabled = true;
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.imgClickHandler, this);
             }

@@ -43,6 +43,7 @@ var LXPuzzle;
             var radio = event.target;
             this._currRadio.x = 101 + radio.index * 82;
             this._index = radio.index;
+            LXPuzzle.GameData.getInstance().imgIndex = this._index;
         };
         return RadioGroup;
     })(egret.Sprite);

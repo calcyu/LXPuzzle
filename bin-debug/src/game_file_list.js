@@ -1,4 +1,5 @@
 var game_file_list = [
+	"LXPuzzle/GameData.js",
 	"LXPuzzle/MenuPanel.js",
 	"LXPuzzle/PlayPanel.js",
 	"LXPuzzle/GameContainer.js",

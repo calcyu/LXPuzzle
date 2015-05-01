@@ -39,6 +39,9 @@ module LXPuzzle {
         constructor(name:string) {
             super();
             var img:egret.Bitmap = createBitmapByName(name);
+            img.x = img.y = 2;
+            img.width = 173;
+            img.height = 132;
             this.addChild(img);
             this.normal = createBitmapByName("frame1");
             this.addChild(this.normal);

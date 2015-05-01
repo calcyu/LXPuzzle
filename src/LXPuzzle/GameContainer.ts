@@ -28,11 +28,18 @@ module LXPuzzle {
             this.menuPanel.addEventListener("StartGame", this.startGameHandler, this);
             this.addChild(this.menuPanel);
             this.playPanel = new LXPuzzle.PlayPanel();
+            this.playPanel.addEventListener("backMenu", this.backMenuHandler, this);
         }
 
         private startGameHandler(event:egret.Event):void{
             this.removeChild(this.menuPanel);
             this.addChild(this.playPanel);
+        }
+
+
+        private backMenuHandler(event:egret.Event):void{
+            this.removeChild(this.playPanel);
+            this.addChild(this.menuPanel);
         }
     }
 

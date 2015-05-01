@@ -14,6 +14,9 @@ var LXPuzzle;
         function ImageBtn(name) {
             _super.call(this);
             var img = LXPuzzle.createBitmapByName(name);
+            img.x = img.y = 2;
+            img.width = 173;
+            img.height = 132;
             this.addChild(img);
             this.normal = LXPuzzle.createBitmapByName("frame1");
             this.addChild(this.normal);

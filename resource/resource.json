@@ -1,13 +1,13 @@
 {
 	"groups":[
 	{
-		"keys":"UI_json,01_s_jpg,02_s_jpg,03_s_jpg,04_s_jpg,05_s_jpg,06_s_jpg,bg_jpg",
+		"keys":"UI_json,bg_jpg,01_jpg,02_jpg,03_jpg,04_jpg,05_jpg,06_jpg",
 		"name":"preload"
 	}],
 	"resources":[
 	{
 		"name":"UI_json",
-		"subkeys":"frame1,frame2,grid,hight,left,low,middle,raido,raido_bg,rihgt,start_btn,text1",
+		"subkeys":"back_btn,frame1,frame2,hight,left,low,middle,raido,raido_bg,right,start_btn,text1",
 		"type":"sheet",
 		"url":"assets/UI.json"
 	},
@@ -17,19 +17,9 @@
 		"url":"assets/01.jpg"
 	},
 	{
-		"name":"01_s_jpg",
-		"type":"image",
-		"url":"assets/01_s.jpg"
-	},
-	{
 		"name":"02_jpg",
 		"type":"image",
 		"url":"assets/02.jpg"
-	},
-	{
-		"name":"02_s_jpg",
-		"type":"image",
-		"url":"assets/02_s.jpg"
 	},
 	{
 		"name":"03_jpg",
@@ -37,19 +27,9 @@
 		"url":"assets/03.jpg"
 	},
 	{
-		"name":"03_s_jpg",
-		"type":"image",
-		"url":"assets/03_s.jpg"
-	},
-	{
 		"name":"04_jpg",
 		"type":"image",
 		"url":"assets/04.jpg"
-	},
-	{
-		"name":"04_s_jpg",
-		"type":"image",
-		"url":"assets/04_s.jpg"
 	},
 	{
 		"name":"05_jpg",
@@ -57,19 +37,9 @@
 		"url":"assets/05.jpg"
 	},
 	{
-		"name":"05_s_jpg",
-		"type":"image",
-		"url":"assets/05_s.jpg"
-	},
-	{
 		"name":"06_jpg",
 		"type":"image",
 		"url":"assets/06.jpg"
-	},
-	{
-		"name":"06_s_jpg",
-		"type":"image",
-		"url":"assets/06_s.jpg"
 	},
 	{
 		"name":"bg_jpg",
