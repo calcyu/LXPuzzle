@@ -16,6 +16,7 @@ var LXPuzzle;
             this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         }
         MenuPanel.prototype.onAddToStage = function (event) {
+            this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
             this.initView();
         };
         MenuPanel.prototype.initView = function () {

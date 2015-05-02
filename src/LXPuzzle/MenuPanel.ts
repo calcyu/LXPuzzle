@@ -14,6 +14,7 @@ module LXPuzzle {
         }
 
         private onAddToStage(event:egret.Event):void {
+            this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
             this.initView();
         }
 
@@ -42,7 +43,6 @@ module LXPuzzle {
 
         private startGame(event:egret.TouchEvent):void{
             this.dispatchEvent(new egret.Event("StartGame"));
-
         }
 
     }

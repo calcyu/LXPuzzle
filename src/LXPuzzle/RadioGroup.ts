@@ -39,7 +39,7 @@ module LXPuzzle {
             var radio:LXPuzzle.RadioBtn = event.target;
             this._currRadio.x = 101 + radio.index * 82;
             this._index = radio.index;
-            GameData.getInstance().imgIndex = this._index;
+            LXPuzzle.GameData.getInstance().level = this._index;
         }
     }
 }

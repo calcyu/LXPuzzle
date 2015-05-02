@@ -34,6 +34,7 @@ module LXPuzzle {
         private startGameHandler(event:egret.Event):void{
             this.removeChild(this.menuPanel);
             this.addChild(this.playPanel);
+            this.playPanel.initView();
         }
 
 

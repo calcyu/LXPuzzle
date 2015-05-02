@@ -1,11 +1,13 @@
 [
-	"LXPuzzle\\GameData.ts",
 	"LXPuzzle\\MenuPanel.ts",
 	"LXPuzzle\\PlayPanel.ts",
 	"LXPuzzle\\GameContainer.ts",
+	"LXPuzzle\\GameData.ts",
+	"LXPuzzle\\GridCell.ts",
 	"LXPuzzle\\ImageBtn.ts",
 	"LXPuzzle\\RadioBtn.ts",
 	"LoadingUI.ts",
+	"LXPuzzle\\GridGroup.ts",
 	"LXPuzzle\\ImageMenu.ts",
 	"LXPuzzle\\RadioGroup.ts",
 	"Main.ts"

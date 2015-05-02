@@ -40,7 +40,7 @@ module LXPuzzle {
             }
             this._currImg = event.target;
             this._currImg.selected = true;
-            GameData.getInstance().imgIndex = this._currImg.index;
+            LXPuzzle.GameData.getInstance().imgIndex = this._currImg.index;
         }
 
     }

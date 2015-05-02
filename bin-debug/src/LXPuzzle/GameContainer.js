@@ -35,6 +35,7 @@ var LXPuzzle;
         GameContainer.prototype.startGameHandler = function (event) {
             this.removeChild(this.menuPanel);
             this.addChild(this.playPanel);
+            this.playPanel.initView();
         };
         GameContainer.prototype.backMenuHandler = function (event) {
             this.removeChild(this.playPanel);
