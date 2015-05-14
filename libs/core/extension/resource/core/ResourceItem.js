@@ -45,7 +45,8 @@ var RES;
             this.url = url;
             this.type = type;
         }
-        Object.defineProperty(ResourceItem.prototype, "loaded", {
+        var __egretProto__ = ResourceItem.prototype;
+        Object.defineProperty(__egretProto__, "loaded", {
             /**
              * 加载完成的标志
              * @member {boolean} RES.ResourceItem#loaded
@@ -66,7 +67,7 @@ var RES;
          * @method RES.ResourceItem#toString
          * @returns {string}
          */
-        ResourceItem.prototype.toString = function () {
+        __egretProto__.toString = function () {
             return "[ResourceItem name=\"" + this.name + "\" url=\"" + this.url + "\" type=\"" + this.type + "\"]";
         };
         /**

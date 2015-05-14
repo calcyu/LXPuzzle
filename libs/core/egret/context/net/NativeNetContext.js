@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -40,13 +34,17 @@ var egret;
         function NativeNetContext() {
             _super.call(this);
             this.urlData = {};
-            this._versionCtr = new egret.VersionController();
+            this.initVersion(new egret.VersionController());
         }
+        var __egretProto__ = NativeNetContext.prototype;
+        __egretProto__.initVersion = function (versionCtr) {
+            this._versionCtr = versionCtr;
+        };
         /**
          * @method egret.HTML5NetContext#proceed
          * @param loader {URLLoader}
          */
-        NativeNetContext.prototype.proceed = function (loader) {
+        __egretProto__.proceed = function (loader) {
             if (loader.dataFormat == egret.URLLoaderDataFormat.TEXTURE) {
                 this.loadTexture(loader);
                 return;
@@ -60,7 +58,8 @@ var egret;
             var url = egret.NetContext._getUrl(request);
             if (url.indexOf("http://") == 0) {
                 this.urlData.type = request.method;
-                if (request.method == egret.URLRequestMethod.POST && request.data && request.data instanceof egret.URLVariables) {
+                //写入POST数据
+                if (request.method == egret.URLRequestMethod.POST && request.data) {
                     var urlVars = request.data;
                     this.urlData.data = urlVars.toString();
                 }
@@ -92,7 +91,23 @@ var egret;
                 download();
             }
             else {
-                egret.__callAsync(onLoadComplete, this);
+                if (NativeNetContext.__use_asyn) {
+                    //异步读取
+                    readFileAsync();
+                }
+                else {
+                    //同步读取
+                    egret.__callAsync(onLoadComplete, this);
+                }
+            }
+            function readFileAsync() {
+                var promise = new egret.PromiseObject();
+                promise.onSuccessFunc = function (content) {
+                    self.saveVersion(url);
+                    loader.data = content;
+                    egret.Event.dispatchEvent(loader, egret.Event.COMPLETE);
+                };
+                egret_native.readFileAsync(url, promise);
             }
             function download() {
                 var promise = egret.PromiseObject.create();
@@ -109,7 +124,7 @@ var egret;
                 egret.Event.dispatchEvent(loader, egret.Event.COMPLETE);
             }
         };
-        NativeNetContext.prototype.getHeaderString = function (request) {
+        __egretProto__.getHeaderString = function (request) {
             var headerObj = {};
             var length = request.requestHeaders.length;
             for (var i = 0; i < length; i++) {
@@ -118,7 +133,7 @@ var egret;
             }
             return JSON.stringify(headerObj);
         };
-        NativeNetContext.prototype.loadSound = function (loader) {
+        __egretProto__.loadSound = function (loader) {
             var self = this;
             var request = loader._request;
             var url = request.url;
@@ -150,7 +165,7 @@ var egret;
                 egret.Event.dispatchEvent(loader, egret.Event.COMPLETE);
             }
         };
-        NativeNetContext.prototype.loadTexture = function (loader) {
+        __egretProto__.loadTexture = function (loader) {
             var self = this;
             var request = loader._request;
             var url = request.url;
@@ -165,11 +180,28 @@ var egret;
             }
             else {
                 if (NativeNetContext.__use_asyn) {
-                    onLoadComplete();
+                    addTextureAsync();
                 }
                 else {
                     egret.__callAsync(onLoadComplete, this);
                 }
+            }
+            function addTexture(bitmapData) {
+                self.saveVersion(url);
+                var texture = new egret.Texture();
+                texture._setBitmapData(bitmapData);
+                loader.data = texture;
+                egret.Event.dispatchEvent(loader, egret.Event.COMPLETE);
+            }
+            function addTextureAsync() {
+                var promise = new egret.PromiseObject();
+                promise.onSuccessFunc = function (bitmapData) {
+                    addTexture(bitmapData);
+                };
+                promise.onErrorFunc = function () {
+                    egret.IOErrorEvent.dispatchIOErrorEvent(loader);
+                };
+                egret_native.Texture.addTextureAsyn(url, promise);
             }
             function download() {
                 var promise = egret.PromiseObject.create();
@@ -180,43 +212,37 @@ var egret;
                 egret_native.download(url, url, promise);
             }
             function onLoadComplete() {
-                self.saveVersion(url);
                 if (NativeNetContext.__use_asyn) {
-                    var promise = egret.PromiseObject.create();
-                    promise.onSuccessFunc = function (bitmapData) {
-                        var texture = new egret.Texture();
-                        texture._setBitmapData(bitmapData);
-                        loader.data = texture;
-                        egret.Event.dispatchEvent(loader, egret.Event.COMPLETE);
-                    };
-                    promise.onErrorFunc = function () {
-                        egret.IOErrorEvent.dispatchIOErrorEvent(loader);
-                    };
-                    egret_native.Texture.addTextureUnsyn(url, promise);
+                    addTextureAsync();
                 }
                 else {
                     var bitmapData = egret_native.Texture.addTexture(url);
-                    var texture = new egret.Texture();
-                    texture._setBitmapData(bitmapData);
-                    loader.data = texture;
-                    egret.Event.dispatchEvent(loader, egret.Event.COMPLETE);
+                    addTexture(bitmapData);
                 }
             }
         };
         /**
          * 检查文件是否是最新版本
          */
-        NativeNetContext.prototype.checkIsNewVersion = function (url) {
-            return this._versionCtr.checkIsNewVersion(url);
+        __egretProto__.checkIsNewVersion = function (url) {
+            if (this._versionCtr) {
+                return this._versionCtr.checkIsNewVersion(url);
+            }
+            return true;
         };
         /**
          * 保存本地版本信息文件
          */
-        NativeNetContext.prototype.saveVersion = function (url) {
-            this._versionCtr.saveVersion(url);
+        __egretProto__.saveVersion = function (url) {
+            if (this._versionCtr) {
+                this._versionCtr.saveVersion(url);
+            }
         };
-        NativeNetContext.prototype.getChangeList = function () {
-            return this._versionCtr.getChangeList();
+        __egretProto__.getChangeList = function () {
+            if (this._versionCtr) {
+                return this._versionCtr.getChangeList();
+            }
+            return [];
         };
         NativeNetContext.__use_asyn = false;
         return NativeNetContext;

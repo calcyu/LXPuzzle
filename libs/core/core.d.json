@@ -1,5 +1,6 @@
 {
 	"file_list": [
+		"egret/utils/extends.js",
 		"egret/utils/Logger.js",
 		"egret/utils/HashObject.js",
 		"egret/utils/Recycler.js",
@@ -47,6 +48,8 @@
 		"egret/display/Graphics.js",
 		"egret/display/Shape.js",
 		"egret/display/Sprite.js",
+		"egret/text/TextFieldUtils.js",
+		"egret/text/TextFieldProperties.js",
 		"egret/text/TextField.js",
 		"egret/text/HtmlTextParser.js",
 		"egret/text/TextFieldType.js",
@@ -76,6 +79,7 @@
 		"egret/context/localStorage/localStorage.js",
 		"egret/utils/XML.js",
 		"egret/utils/ByteArray.js",
+		"egret/utils/getOption.js",
 		"egret/tween/Tween.js",
 		"egret/tween/Ease.js",
 		"egret/media/Sound.js",

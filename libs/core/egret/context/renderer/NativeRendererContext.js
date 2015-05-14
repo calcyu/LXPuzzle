@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -49,7 +43,8 @@ var egret;
             this.currentAlpha = NaN;
             this.currentBlendMode = null;
         }
-        NativeRendererContext.prototype._setTextureScaleFactor = function (value) {
+        var __egretProto__ = NativeRendererContext.prototype;
+        __egretProto__._setTextureScaleFactor = function (value) {
             _super.prototype._setTextureScaleFactor.call(this, value);
             if (egret_native.Graphics.setTextureScaleFactor != null) {
                 egret_native.Graphics.setTextureScaleFactor(value);
@@ -59,7 +54,7 @@ var egret;
          * @method egret.NativeRendererContext#clearScreen
          * @private
          */
-        NativeRendererContext.prototype.clearScreen = function () {
+        __egretProto__.clearScreen = function () {
             egret_native.Graphics.clearScreen(0, 0, 0);
         };
         /**
@@ -70,7 +65,7 @@ var egret;
          * @param w {number}
          * @param h {numbe}
          */
-        NativeRendererContext.prototype.clearRect = function (x, y, w, h) {
+        __egretProto__.clearRect = function (x, y, w, h) {
         };
         /**
          * 绘制图片
@@ -86,7 +81,7 @@ var egret;
          * @param destHeigh {any}
          * @param repeat {string}
          */
-        NativeRendererContext.prototype.drawImage = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
+        __egretProto__.drawImage = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
             if (repeat === void 0) { repeat = undefined; }
             if (repeat !== undefined) {
                 this.drawRepeatImage(texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat);
@@ -110,7 +105,7 @@ var egret;
          * @param destWidth {any}
          * @param destHeigh {any}
          */
-        NativeRendererContext.prototype.drawImageScale9 = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, offX, offY, destWidth, destHeight, rect) {
+        __egretProto__.drawImageScale9 = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, offX, offY, destWidth, destHeight, rect) {
             if (egret_native.Graphics.drawImageScale9 != null) {
                 egret_native.Graphics.drawImageScale9(texture._bitmapData, sourceX, sourceY, sourceWidth, sourceHeight, offX, offY, destWidth, destHeight, rect.x, rect.y, rect.width, rect.height);
                 this._addOneDraw();
@@ -118,7 +113,7 @@ var egret;
             }
             return false;
         };
-        NativeRendererContext.prototype.drawRepeatImage = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
+        __egretProto__.drawRepeatImage = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
             var texture_scale_factor = egret.MainContext.instance.rendererContext._texture_scale_factor;
             sourceWidth = sourceWidth * texture_scale_factor;
             sourceHeight = sourceHeight * texture_scale_factor;
@@ -136,7 +131,7 @@ var egret;
          * @param matrix {egret.Matrix}
          * @stable A
          */
-        NativeRendererContext.prototype.setTransform = function (matrix) {
+        __egretProto__.setTransform = function (matrix) {
             egret_native.Graphics.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
         };
         /**
@@ -146,14 +141,14 @@ var egret;
          * @stable A
          * @param blendMode {egret.BlendMode}
          */
-        NativeRendererContext.prototype.setAlpha = function (value, blendMode) {
+        __egretProto__.setAlpha = function (value, blendMode) {
             //if (this.currentAlpha != value) {
             egret_native.Graphics.setGlobalAlpha(value);
             //this.currentAlpha = value;
             //}
             this.setBlendMode(blendMode);
         };
-        NativeRendererContext.prototype.setBlendMode = function (blendMode) {
+        __egretProto__.setBlendMode = function (blendMode) {
             if (!blendMode) {
                 blendMode = egret.BlendMode.NORMAL;
             }
@@ -170,11 +165,19 @@ var egret;
          * @method egret.NativeRendererContext#setupFont
          * @param textField {TextField}
          */
-        NativeRendererContext.prototype.setupFont = function (textField, style) {
+        __egretProto__.setupFont = function (textField, style) {
             if (style === void 0) { style = null; }
             style = style || {};
-            var size = style["size"] == null ? textField._size : style["size"];
-            egret_native.Label.createLabel(egret.TextField.default_fontFamily, size, "");
+            var properties = textField._properties;
+            var size = style["size"] == null ? properties._size : style["size"];
+            var outline;
+            if (style.stroke != null) {
+                outline = style.stroke;
+            }
+            else {
+                outline = properties._stroke;
+            }
+            egret_native.Label.createLabel(egret.TextField.default_fontFamily, size, "", outline);
         };
         /**
          * 测量文本
@@ -182,7 +185,7 @@ var egret;
          * @param text {string}
          * @returns {number}
          */
-        NativeRendererContext.prototype.measureText = function (text) {
+        __egretProto__.measureText = function (text) {
             return egret_native.Label.getTextSize(text)[0];
         };
         /**
@@ -194,42 +197,37 @@ var egret;
          * @param y {number}
          * @param maxWidth {numbe}
          */
-        NativeRendererContext.prototype.drawText = function (textField, text, x, y, maxWidth, style) {
+        __egretProto__.drawText = function (textField, text, x, y, maxWidth, style) {
             if (style === void 0) { style = null; }
             this.setupFont(textField, style);
             style = style || {};
+            var properties = textField._properties;
             var textColor;
             if (style.textColor != null) {
                 textColor = style.textColor;
             }
             else {
-                textColor = textField._textColor;
+                textColor = properties._textColor;
             }
             var strokeColor;
             if (style.strokeColor != null) {
-                strokeColor = egret.toColorString(style.strokeColor);
+                strokeColor = style.strokeColor;
             }
             else {
-                strokeColor = textField._strokeColorString;
-            }
-            var outline;
-            if (style.stroke != null) {
-                outline = style.stroke;
-            }
-            else {
-                outline = textField._stroke;
+                strokeColor = properties._strokeColor;
             }
             egret_native.Label.setTextColor(textColor);
+            egret_native.Label.setStrokeColor(strokeColor);
             egret_native.Label.drawText(text, x, y - 2);
             _super.prototype.drawText.call(this, textField, text, x, y, maxWidth, style);
         };
-        NativeRendererContext.prototype.pushMask = function (mask) {
+        __egretProto__.pushMask = function (mask) {
             egret_native.Graphics.pushClip(mask.x, mask.y, mask.width, mask.height);
         };
-        NativeRendererContext.prototype.popMask = function () {
+        __egretProto__.popMask = function () {
             egret_native.Graphics.popClip();
         };
-        NativeRendererContext.prototype.setGlobalColorTransform = function (colorTransformMatrix) {
+        __egretProto__.setGlobalColorTransform = function (colorTransformMatrix) {
             if (colorTransformMatrix) {
                 egret_native.Graphics.setGlobalColorTransformEnabled(true);
                 egret_native.Graphics.setGlobalColorTransform(colorTransformMatrix);
@@ -238,7 +236,7 @@ var egret;
                 egret_native.Graphics.setGlobalColorTransformEnabled(false);
             }
         };
-        NativeRendererContext.prototype.setGlobalFilter = function (filterData) {
+        __egretProto__.setGlobalFilter = function (filterData) {
             egret_native.Graphics.setGlobalShader(filterData);
         };
         return NativeRendererContext;

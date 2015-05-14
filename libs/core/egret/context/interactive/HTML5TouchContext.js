@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -42,14 +36,21 @@ var egret;
             this._isTouchDown = false;
             this.rootDiv = null;
             this.rootDiv = document.getElementById(egret.StageDelegate.canvas_div_name);
+            if (!this.rootDiv) {
+                var container = document.getElementById(egret.StageDelegate.egret_root_div);
+                this.rootDiv = egret.Browser.getInstance().$new("div");
+                this.rootDiv.id = egret.StageDelegate.canvas_div_name;
+                container.appendChild(this.rootDiv);
+            }
         }
-        HTML5TouchContext.prototype.prevent = function (event) {
+        var __egretProto__ = HTML5TouchContext.prototype;
+        __egretProto__.prevent = function (event) {
             event.stopPropagation();
-            if (event["isScroll"] != true) {
+            if (event["isScroll"] != true && !egret.HTMLInput.getInstance().isInputOn()) {
                 event.preventDefault();
             }
         };
-        HTML5TouchContext.prototype.run = function () {
+        __egretProto__.run = function () {
             var that = this;
             if (window.navigator.msPointerEnabled) {
                 this.rootDiv.addEventListener("MSPointerDown", function (event) {
@@ -90,7 +91,7 @@ var egret;
                 that._isTouchDown = false;
             });
         };
-        HTML5TouchContext.prototype.addMouseListener = function () {
+        __egretProto__.addMouseListener = function () {
             var that = this;
             this.rootDiv.addEventListener("mousedown", function (event) {
                 that._onTouchBegin(event);
@@ -102,7 +103,7 @@ var egret;
                 that._onTouchEnd(event);
             });
         };
-        HTML5TouchContext.prototype.addTouchListener = function () {
+        __egretProto__.addTouchListener = function () {
             var that = this;
             this.rootDiv.addEventListener("touchstart", function (event) {
                 var l = event.changedTouches.length;
@@ -133,7 +134,7 @@ var egret;
                 that.prevent(event);
             }, false);
         };
-        HTML5TouchContext.prototype.inOutOfCanvas = function (event) {
+        __egretProto__.inOutOfCanvas = function (event) {
             var location = this.getLocation(this.rootDiv, event);
             var x = location.x, y = location.y;
             var stage = egret.MainContext.instance.stage;
@@ -142,11 +143,11 @@ var egret;
             }
             return false;
         };
-        HTML5TouchContext.prototype.dispatchLeaveStageEvent = function () {
+        __egretProto__.dispatchLeaveStageEvent = function () {
             this.touchingIdentifiers.length = 0;
             egret.MainContext.instance.stage.dispatchEventWith(egret.Event.LEAVE_STAGE);
         };
-        HTML5TouchContext.prototype._onTouchBegin = function (event) {
+        __egretProto__._onTouchBegin = function (event) {
             var location = this.getLocation(this.rootDiv, event);
             var identifier = -1;
             if (event.hasOwnProperty("identifier")) {
@@ -154,7 +155,7 @@ var egret;
             }
             this.onTouchBegan(location.x, location.y, identifier);
         };
-        HTML5TouchContext.prototype._onTouchMove = function (event) {
+        __egretProto__._onTouchMove = function (event) {
             var location = this.getLocation(this.rootDiv, event);
             var identifier = -1;
             if (event.hasOwnProperty("identifier")) {
@@ -162,7 +163,7 @@ var egret;
             }
             this.onTouchMove(location.x, location.y, identifier);
         };
-        HTML5TouchContext.prototype._onTouchEnd = function (event) {
+        __egretProto__._onTouchEnd = function (event) {
             var location = this.getLocation(this.rootDiv, event);
             var identifier = -1;
             if (event.hasOwnProperty("identifier")) {
@@ -170,7 +171,7 @@ var egret;
             }
             this.onTouchEnd(location.x, location.y, identifier);
         };
-        HTML5TouchContext.prototype.getLocation = function (rootDiv, event) {
+        __egretProto__.getLocation = function (rootDiv, event) {
             var doc = document.documentElement;
             var win = window;
             var left, top, tx, ty;

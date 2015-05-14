@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -105,7 +99,8 @@ var egret;
             this.altKey = altKey;
             this.touchDown = touchDown;
         }
-        Object.defineProperty(TouchEvent.prototype, "stageX", {
+        var __egretProto__ = TouchEvent.prototype;
+        Object.defineProperty(__egretProto__, "stageX", {
             /**
              * 事件发生点在全局舞台坐标中的水平坐标。
              * @member {number} egret.TouchEvent#stageX
@@ -116,7 +111,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TouchEvent.prototype, "stageY", {
+        Object.defineProperty(__egretProto__, "stageY", {
             /**
              * 事件发生点在全局舞台坐标中的垂直坐标。
              * @member {number} egret.TouchEvent#stageY
@@ -127,7 +122,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TouchEvent.prototype, "localX", {
+        Object.defineProperty(__egretProto__, "localX", {
             /**
              * 事件发生点相对于currentTarget的水平坐标。
              * @member {number} egret.TouchEvent#localX
@@ -140,7 +135,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(TouchEvent.prototype, "localY", {
+        Object.defineProperty(__egretProto__, "localY", {
             /**
              * 事件发生点相对于currentTarget的垂直坐标。
              * @member {number} egret.TouchEvent#localY

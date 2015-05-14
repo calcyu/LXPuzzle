@@ -29,6 +29,7 @@ var egret;
     var NumberUtils = (function () {
         function NumberUtils() {
         }
+        var __egretProto__ = NumberUtils.prototype;
         NumberUtils.isNumber = function (value) {
             return typeof (value) === "number" && !isNaN(value);
         };
@@ -83,9 +84,9 @@ var egret;
 })(egret || (egret = {}));
 var egret_sin_map = {};
 var egret_cos_map = {};
-for (var i = 0; i <= 90; i++) {
-    egret_sin_map[i] = Math.sin(i * egret.Matrix.DEG_TO_RAD);
-    egret_cos_map[i] = Math.cos(i * egret.Matrix.DEG_TO_RAD);
+for (var NumberUtils_i = 0; NumberUtils_i <= 90; NumberUtils_i++) {
+    egret_sin_map[NumberUtils_i] = Math.sin(NumberUtils_i * egret.Matrix.DEG_TO_RAD);
+    egret_cos_map[NumberUtils_i] = Math.cos(NumberUtils_i * egret.Matrix.DEG_TO_RAD);
 }
 //对未提供bind的浏览器实现bind机制
 if (!Function.prototype.bind) {

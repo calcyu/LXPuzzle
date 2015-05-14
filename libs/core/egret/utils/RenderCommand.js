@@ -32,13 +32,14 @@ var egret;
     var RenderCommand = (function () {
         function RenderCommand() {
         }
-        RenderCommand.prototype.call = function (renderContext) {
+        var __egretProto__ = RenderCommand.prototype;
+        __egretProto__.call = function (renderContext) {
             var o = this;
             if (o.callback) {
                 o.callback.call(o.thisObject, renderContext);
             }
         };
-        RenderCommand.prototype.dispose = function () {
+        __egretProto__.dispose = function () {
             this.callback = null;
             this.thisObject = null;
             RenderCommand.__freeList.push(this);

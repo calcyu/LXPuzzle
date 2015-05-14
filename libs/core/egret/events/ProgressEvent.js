@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Copyright (c) 2014,Egret-Labs.org
  * All rights reserved.
@@ -68,6 +62,7 @@ var egret;
             this.bytesLoaded = bytesLoaded;
             this.bytesTotal = bytesTotal;
         }
+        var __egretProto__ = ProgressEvent.prototype;
         /**
          * 使用指定的EventDispatcher对象来抛出Event事件对象。抛出的对象将会缓存在对象池上，供下次循环复用。
          * @method egret.ProgressEvent.dispatchIOErrorEvent

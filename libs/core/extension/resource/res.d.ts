@@ -550,6 +550,7 @@ declare module RES {
          * @inheritDoc
          */
         destroyRes(name: string): boolean;
+        protected onResourceDestroy(resource: any): void;
     }
 }
 /**
@@ -576,6 +577,7 @@ declare module RES {
          * 解析并缓存加载成功的数据
          */
         analyzeData(resItem: ResourceItem, data: any): void;
+        protected onResourceDestroy(resource: any): void;
     }
 }
 /**

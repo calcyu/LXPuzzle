@@ -34,6 +34,7 @@ var egret;
     var URLLoaderDataFormat = (function () {
         function URLLoaderDataFormat() {
         }
+        var __egretProto__ = URLLoaderDataFormat.prototype;
         /**
          * 指定以原始二进制数据形式接收下载的数据。
          * @constant {string} egret.URLLoaderDataFormat.BINARY

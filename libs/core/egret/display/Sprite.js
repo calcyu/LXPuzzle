@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -47,7 +41,8 @@ var egret;
             _super.call(this);
             this._graphics = null;
         }
-        Object.defineProperty(Sprite.prototype, "graphics", {
+        var __egretProto__ = Sprite.prototype;
+        Object.defineProperty(__egretProto__, "graphics", {
             /**
              * 获取 Sprite 中的 Graphics 对象。
              * 指定属于此 sprite 的 Graphics 对象，在此 sprite 中可执行矢量绘图命令。
@@ -63,12 +58,12 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Sprite.prototype._render = function (renderContext) {
+        __egretProto__._render = function (renderContext) {
             if (this._graphics)
                 this._graphics._draw(renderContext);
             _super.prototype._render.call(this, renderContext);
         };
-        Sprite.prototype._measureBounds = function () {
+        __egretProto__._measureBounds = function () {
             var minX = 0, maxX = 0, minY = 0, maxY = 0;
             var l = this._children.length;
             for (var i = 0; i < l; i++) {
@@ -115,7 +110,7 @@ var egret;
             }
             return egret.Rectangle.identity.initialize(minX, minY, maxX - minX, maxY - minY);
         };
-        Sprite.prototype.hitTest = function (x, y, ignoreTouchEnabled) {
+        __egretProto__.hitTest = function (x, y, ignoreTouchEnabled) {
             if (ignoreTouchEnabled === void 0) { ignoreTouchEnabled = false; }
             var result = _super.prototype.hitTest.call(this, x, y, ignoreTouchEnabled);
             if (result) {

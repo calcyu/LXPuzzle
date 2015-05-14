@@ -27,12 +27,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -55,7 +49,8 @@ var egret;
             this.container = new egret.DisplayObjectContainer();
             this.textValue = "";
         }
-        NativeStageText.prototype.createText = function () {
+        var __egretProto__ = NativeStageText.prototype;
+        __egretProto__.createText = function () {
             var container = this.container;
             var stage = egret.MainContext.instance.stage;
             var stageWidth = stage.stageWidth;
@@ -103,28 +98,24 @@ var egret;
             this.textBg.graphics.endFill();
             this.textBorder.graphics.endFill();
         };
-        NativeStageText.prototype._getText = function () {
+        __egretProto__._getText = function () {
             if (!this.textValue) {
                 this.textValue = "";
             }
             return this.textValue;
         };
-        NativeStageText.prototype._setText = function (value) {
+        __egretProto__._setText = function (value) {
             this.textValue = value;
             this.resetText();
         };
-        NativeStageText.prototype._setTextType = function (type) {
+        __egretProto__._setTextType = function (type) {
             this.textType = type;
             this.resetText();
         };
-        NativeStageText.prototype._getTextType = function () {
+        __egretProto__._getTextType = function () {
             return this.textType;
         };
-        NativeStageText.prototype._open = function (x, y, width, height) {
-            if (width === void 0) { width = 160; }
-            if (height === void 0) { height = 21; }
-        };
-        NativeStageText.prototype.resetText = function () {
+        __egretProto__.resetText = function () {
             if (this.textType == "password") {
                 var passwordStr = "";
                 for (var i = 0; i < this.textValue.length; i++) {
@@ -151,8 +142,9 @@ var egret;
             this.tf.y = h - maxH + 15;
         };
         //全屏键盘
-        NativeStageText.prototype.showScreenKeyboard = function () {
+        __egretProto__.showScreenKeyboard = function () {
             var self = this;
+            self.dispatchEvent(new egret.Event("blur"));
             egret_native.EGT_TextInput = function (appendText) {
                 if (self._multiline) {
                     if (self.isFinishDown) {
@@ -177,7 +169,7 @@ var egret;
                 }
             };
         };
-        NativeStageText.prototype.showPartKeyboard = function () {
+        __egretProto__.showPartKeyboard = function () {
             var container = this.container;
             var stage = egret.MainContext.instance.stage;
             stage.addChild(container);
@@ -189,6 +181,7 @@ var egret;
                 else {
                     if (appendText == "\n") {
                         if (container && container.parent) {
+                            self.dispatchEvent(new egret.Event("blur"));
                             container.parent.removeChild(container);
                         }
                         egret_native.TextInputOp.setKeybordOpen(false);
@@ -209,11 +202,12 @@ var egret;
             //系统关闭键盘
             egret_native.EGT_keyboardDidHide = function () {
                 if (container && container.parent) {
+                    self.dispatchEvent(new egret.Event("blur"));
                     container.parent.removeChild(container);
                 }
             };
         };
-        NativeStageText.prototype._show = function () {
+        __egretProto__._show = function (multiline, size, width, height) {
             var self = this;
             egret_native.EGT_getTextEditerContentText = function () {
                 return self._getText();
@@ -231,14 +225,15 @@ var egret;
             egret_native.TextInputOp.setInputTextMaxLenght(self._maxChars > 0 ? self._maxChars : -1);
             egret_native.TextInputOp.setKeybordOpen(true);
         };
-        NativeStageText.prototype._remove = function () {
+        __egretProto__._remove = function () {
             var container = this.container;
             if (container && container.parent) {
                 container.parent.removeChild(container);
             }
         };
-        NativeStageText.prototype._hide = function () {
+        __egretProto__._hide = function () {
             this._remove();
+            this.dispatchEvent(new egret.Event("blur"));
             egret_native.TextInputOp.setKeybordOpen(false);
         };
         return NativeStageText;

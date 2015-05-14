@@ -34,6 +34,7 @@ var egret;
     var StageScaleMode = (function () {
         function StageScaleMode() {
         }
+        var __egretProto__ = StageScaleMode.prototype;
         /**
          * 指定整个应用程序填满指定区域，不会发生扭曲，但有可能会进行一些裁切，同时保持应用程序的原始高宽比。
          * @member {string} egret.StageScaleMode.NO_BORDER

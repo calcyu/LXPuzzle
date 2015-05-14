@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -72,7 +66,8 @@ var egret;
             this._bubbles = bubbles;
             this._cancelable = cancelable;
         }
-        Object.defineProperty(Event.prototype, "type", {
+        var __egretProto__ = Event.prototype;
+        Object.defineProperty(__egretProto__, "type", {
             /**
              * 事件的类型。类型区分大小写。
              * @member {string} egret.Event#type
@@ -83,7 +78,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Event.prototype, "bubbles", {
+        Object.defineProperty(__egretProto__, "bubbles", {
             /**
              * 表示事件是否为冒泡事件。如果事件可以冒泡，则此值为 true；否则为 false。
              * @member {boolean} egret.Event#bubbles
@@ -94,7 +89,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Event.prototype, "cancelable", {
+        Object.defineProperty(__egretProto__, "cancelable", {
             /**
              * 表示是否可以阻止与事件相关联的行为。如果可以取消该行为，则此值为 true；否则为 false。
              * @member {boolean} egret.Event#cancelable
@@ -105,7 +100,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Event.prototype, "eventPhase", {
+        Object.defineProperty(__egretProto__, "eventPhase", {
             /**
              * 事件流中的当前阶段。此属性可以包含以下数值：
              * 捕获阶段 (EventPhase.CAPTURING_PHASE)。
@@ -119,7 +114,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Event.prototype, "currentTarget", {
+        Object.defineProperty(__egretProto__, "currentTarget", {
             /**
              * 当前正在使用某个事件侦听器处理 Event 对象的对象。例如，如果用户单击“确定”按钮，
              * 则当前目标可以是包含该按钮的节点，也可以是它的已为该事件注册了事件侦听器的始祖之一。
@@ -131,7 +126,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Event.prototype, "target", {
+        Object.defineProperty(__egretProto__, "target", {
             /**
              * 事件目标。此属性包含目标节点。例如，如果用户单击“确定”按钮，则目标节点就是包含该按钮的显示列表节点。
              * @member {any} egret.Event#target
@@ -147,7 +142,7 @@ var egret;
          * @method egret.Event#isDefaultPrevented
          * @returns {boolean} 如果已调用 preventDefault() 方法，则返回 true；否则返回 false。
          */
-        Event.prototype.isDefaultPrevented = function () {
+        __egretProto__.isDefaultPrevented = function () {
             return this._isDefaultPrevented;
         };
         /**
@@ -157,7 +152,7 @@ var egret;
          * 注意：当cancelable属性为false时，此方法不可用。
          * @method egret.Event#preventDefault
          */
-        Event.prototype.preventDefault = function () {
+        __egretProto__.preventDefault = function () {
             if (this._cancelable)
                 this._isDefaultPrevented = true;
         };
@@ -168,7 +163,7 @@ var egret;
          * 注意：此方法不会取消与此事件相关联的行为；有关此功能的信息，请参阅 preventDefault()。
          * @method egret.Event#stopPropagation
          */
-        Event.prototype.stopPropagation = function () {
+        __egretProto__.stopPropagation = function () {
             if (this._bubbles)
                 this._isPropagationStopped = true;
         };
@@ -178,11 +173,11 @@ var egret;
          * 注意：此方法不会取消与此事件相关联的行为；有关此功能的信息，请参阅 preventDefault()。
          * @method egret.Event#stopImmediatePropagation
          */
-        Event.prototype.stopImmediatePropagation = function () {
+        __egretProto__.stopImmediatePropagation = function () {
             if (this._bubbles)
                 this._isPropagationImmediateStopped = true;
         };
-        Event.prototype._reset = function () {
+        __egretProto__._reset = function () {
             if (this.isNew) {
                 this.isNew = false;
                 return;
@@ -194,7 +189,7 @@ var egret;
             this._currentTarget = null;
             this._eventPhase = 2;
         };
-        Event.prototype.__recycle = function () {
+        __egretProto__.__recycle = function () {
             this._currentTarget = null;
             this._target = null;
             this.data = null;
@@ -245,7 +240,7 @@ var egret;
             if (bubbles === void 0) { bubbles = false; }
             var eventClass = Event;
             var props = Event._getPropertyData(eventClass);
-            if (data) {
+            if (data != undefined) {
                 props.data = data;
             }
             Event._dispatchByTarget(eventClass, target, type, props, bubbles);

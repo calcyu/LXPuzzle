@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     var SoundAnalyzer = (function (_super) {
@@ -38,7 +32,8 @@ var RES;
             _super.call(this);
             this._dataFormat = egret.URLLoaderDataFormat.SOUND;
         }
-        SoundAnalyzer.prototype.analyzeData = function (resItem, data) {
+        var __egretProto__ = SoundAnalyzer.prototype;
+        __egretProto__.analyzeData = function (resItem, data) {
             var name = resItem.name;
             if (this.fileDic[name] || !data) {
                 return;

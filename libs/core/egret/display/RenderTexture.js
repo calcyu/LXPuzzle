@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -46,7 +40,8 @@ var egret;
         function RenderTexture() {
             _super.call(this);
         }
-        RenderTexture.prototype.init = function () {
+        var __egretProto__ = RenderTexture.prototype;
+        __egretProto__.init = function () {
             this._bitmapData = document.createElement("canvas");
             this.renderContext = egret.RendererContext.createRendererContext(this._bitmapData);
         };
@@ -57,7 +52,7 @@ var egret;
          * @param clipBounds {egret.Rectangle} 绘制矩形区域
          * @param scale {number} 缩放比例
          */
-        RenderTexture.prototype.drawToTexture = function (displayObject, clipBounds, scale) {
+        __egretProto__.drawToTexture = function (displayObject, clipBounds, scale) {
             var bounds = clipBounds || displayObject.getBounds(egret.Rectangle.identity);
             if (bounds.width == 0 || bounds.height == 0) {
                 return false;
@@ -67,8 +62,10 @@ var egret;
             }
             var x = bounds.x;
             var y = bounds.y;
-            var width = bounds.width;
-            var height = bounds.height;
+            var originalWidth = bounds.width;
+            var originalHeight = bounds.height;
+            var width = originalWidth;
+            var height = originalHeight;
             var texture_scale_factor = egret.MainContext.instance.rendererContext._texture_scale_factor;
             width /= texture_scale_factor;
             height /= texture_scale_factor;
@@ -92,6 +89,10 @@ var egret;
             this._offsetX = x + anchorOffsetX;
             this._offsetY = y + anchorOffsetY;
             displayObject._worldTransform.append(1, 0, 0, 1, -this._offsetX, -this._offsetY);
+            if (clipBounds) {
+                this._offsetX -= x;
+                this._offsetY -= y;
+            }
             displayObject.worldAlpha = 1;
             if (displayObject instanceof egret.DisplayObjectContainer) {
                 var list = displayObject._children;
@@ -137,8 +138,8 @@ var egret;
             renderFilter._drawAreaList = drawAreaList;
             this._sourceWidth = width;
             this._sourceHeight = height;
-            this._textureWidth = this._sourceWidth * texture_scale_factor;
-            this._textureHeight = this._sourceHeight * texture_scale_factor;
+            this._textureWidth = originalWidth;
+            this._textureHeight = originalHeight;
             this.end();
             //测试代码
             //            var cacheCanvas:HTMLCanvasElement = this._bitmapData;
@@ -147,7 +148,7 @@ var egret;
             //            document.documentElement.appendChild(cacheCanvas);
             return true;
         };
-        RenderTexture.prototype.setSize = function (width, height) {
+        __egretProto__.setSize = function (width, height) {
             var cacheCanvas = this._bitmapData;
             cacheCanvas.width = width;
             cacheCanvas.height = height;
@@ -158,11 +159,11 @@ var egret;
                 this.renderContext._cacheCanvas.height = height;
             }
         };
-        RenderTexture.prototype.begin = function () {
+        __egretProto__.begin = function () {
         };
-        RenderTexture.prototype.end = function () {
+        __egretProto__.end = function () {
         };
-        RenderTexture.prototype.dispose = function () {
+        __egretProto__.dispose = function () {
             if (this._bitmapData) {
                 this._bitmapData = null;
                 this.renderContext = null;

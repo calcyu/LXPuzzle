@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Created by CalcYu on 2015/4/30.
  */
@@ -15,7 +9,8 @@ var LXPuzzle;
             _super.call(this);
             this.initView();
         }
-        Object.defineProperty(ImageMenu.prototype, "index", {
+        var __egretProto__ = ImageMenu.prototype;
+        Object.defineProperty(__egretProto__, "index", {
             get: function () {
                 if (this._currImg != null)
                     return this._currImg.index;
@@ -24,7 +19,7 @@ var LXPuzzle;
             enumerable: true,
             configurable: true
         });
-        ImageMenu.prototype.initView = function () {
+        __egretProto__.initView = function () {
             for (var i = 0; i < 6; i++) {
                 var img = new LXPuzzle.ImageBtn("0" + (i + 1) + "_jpg");
                 if (i == 0) {
@@ -39,7 +34,7 @@ var LXPuzzle;
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.imgClickHandler, this);
             }
         };
-        ImageMenu.prototype.imgClickHandler = function (event) {
+        __egretProto__.imgClickHandler = function (event) {
             if (this._currImg != null) {
                 this._currImg.selected = false;
             }

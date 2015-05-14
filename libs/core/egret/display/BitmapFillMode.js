@@ -36,6 +36,7 @@ var egret;
     var BitmapFillMode = (function () {
         function BitmapFillMode() {
         }
+        var __egretProto__ = BitmapFillMode.prototype;
         /**
          * 重复位图以填充区域。
          * @constant {string} egret.BitmapFillMode.REPEAT

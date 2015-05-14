@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Created by CalcYu on 2015/4/30.
  */
@@ -21,7 +15,8 @@ var LXPuzzle;
             this.addChild(radio);
             this.touchEnabled = true;
         }
-        Object.defineProperty(RadioBtn.prototype, "index", {
+        var __egretProto__ = RadioBtn.prototype;
+        Object.defineProperty(__egretProto__, "index", {
             get: function () {
                 return this._index;
             },

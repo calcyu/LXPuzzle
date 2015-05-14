@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -43,7 +37,8 @@ var egret;
         function NetContext() {
             _super.call(this);
         }
-        NetContext.prototype.proceed = function (loader) {
+        var __egretProto__ = NetContext.prototype;
+        __egretProto__.proceed = function (loader) {
         };
         NetContext._getUrl = function (request) {
             var url = request.url;
@@ -53,7 +48,7 @@ var egret;
             }
             return url;
         };
-        NetContext.prototype.getChangeList = function () {
+        __egretProto__.getChangeList = function () {
             return [];
         };
         return NetContext;

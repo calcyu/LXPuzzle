@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Created by CalcYu on 2015/5/2.
  */
@@ -52,7 +46,8 @@ var LXPuzzle;
             s = new LXPuzzle.GridCell(-1, i);
             this._cells.push(s);
         }
-        GridGroup.prototype.onClickHandler = function (event) {
+        var __egretProto__ = GridGroup.prototype;
+        __egretProto__.onClickHandler = function (event) {
             var cell = event.target;
             if (cell.id >= 0) {
                 var x = (cell.position % this._row);
@@ -102,21 +97,36 @@ var LXPuzzle;
          * @param cell
          * @param value
          */
-        GridGroup.prototype.moveCell = function (cell, value) {
+        __egretProto__.moveCell = function (cell, value) {
             var tw = egret.Tween.get(cell);
             tw.to(value, 100);
+            LXPuzzle.GameData.getInstance().stepCount++;
+            this.check();
         };
         /**
          * 交换数组位置
          * @param a
          * @param b
          */
-        GridGroup.prototype.exchangeCell = function (a, b) {
+        __egretProto__.exchangeCell = function (a, b) {
             var tp = a.position;
             this._cells[tp] = b;
             a.position = b.position;
             this._cells[b.position] = a;
             b.position = tp;
+        };
+        __egretProto__.check = function () {
+            for (var i = 0; i < this._cells.length; i++) {
+                var c = this._cells[i];
+                if (c.id == -1)
+                    continue;
+                if (c.id != i)
+                    break;
+            }
+            if (i == this._cells.length) {
+                this.touchChildren = false;
+                this.dispatchEvent(new egret.Event("success"));
+            }
         };
         return GridGroup;
     })(egret.Sprite);

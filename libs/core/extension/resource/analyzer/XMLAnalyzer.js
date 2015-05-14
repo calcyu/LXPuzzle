@@ -15,12 +15,6 @@
  * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     var XMLAnalyzer = (function (_super) {
@@ -29,10 +23,11 @@ var RES;
             _super.call(this);
             this._dataFormat = egret.URLLoaderDataFormat.TEXT;
         }
+        var __egretProto__ = XMLAnalyzer.prototype;
         /**
          * 解析并缓存加载成功的数据
          */
-        XMLAnalyzer.prototype.analyzeData = function (resItem, data) {
+        __egretProto__.analyzeData = function (resItem, data) {
             var name = resItem.name;
             if (this.fileDic[name] || !data) {
                 return;

@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Created by CalcYu on 2015/4/29.
  */
@@ -22,7 +16,8 @@ var LXPuzzle;
             this.addChild(this.normal);
             this.highly = LXPuzzle.createBitmapByName("frame2");
         }
-        Object.defineProperty(ImageBtn.prototype, "index", {
+        var __egretProto__ = ImageBtn.prototype;
+        Object.defineProperty(__egretProto__, "index", {
             get: function () {
                 return this._index;
             },
@@ -32,7 +27,7 @@ var LXPuzzle;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(ImageBtn.prototype, "selected", {
+        Object.defineProperty(__egretProto__, "selected", {
             get: function () {
                 return this._selected;
             },

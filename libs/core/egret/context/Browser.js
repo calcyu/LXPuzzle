@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -41,16 +35,18 @@ var egret;
         function Browser() {
             _super.call(this);
             this.trans = null;
+            this.header = "";
             this.ua = navigator.userAgent.toLowerCase();
-            this.trans = this._getTrans();
+            this.trans = this.getTrans("transform");
         }
+        var __egretProto__ = Browser.prototype;
         Browser.getInstance = function () {
             if (Browser.instance == null) {
                 Browser.instance = new Browser();
             }
             return Browser.instance;
         };
-        Object.defineProperty(Browser.prototype, "isMobile", {
+        Object.defineProperty(__egretProto__, "isMobile", {
             /**
              * @deprecated
              * @returns {boolean}
@@ -62,31 +58,37 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Browser.prototype._getHeader = function (tempStyle) {
-            if ("transform" in tempStyle) {
-                return "";
+        __egretProto__.getUserAgent = function () {
+            return this.ua;
+        };
+        /**
+         * 获取当前浏览器对应style类型
+         * @type {string}
+         */
+        __egretProto__.getTrans = function (type) {
+            if (this.header == "") {
+                this.header = this.getHeader();
             }
-            var transArr = ["webkit", "ms", "Moz", "O"];
+            return this.header + type.substring(1, type.length);
+        };
+        /**
+         * 获取当前浏览器的类型
+         * @returns {string}
+         */
+        __egretProto__.getHeader = function () {
+            var tempStyle = document.createElement('div').style;
+            var transArr = ["t", "webkitT", "msT", "MozT", "OT"];
             for (var i = 0; i < transArr.length; i++) {
-                var transform = transArr[i] + 'Transform';
+                var transform = transArr[i] + 'ransform';
                 if (transform in tempStyle)
                     return transArr[i];
             }
-            return "";
+            return transArr[0];
         };
-        Browser.prototype._getTrans = function () {
-            var tempStyle = document.createElement('div').style;
-            var _header = this._getHeader(tempStyle);
-            var type = "transform";
-            if (_header == "") {
-                return type;
-            }
-            return _header + type.charAt(0).toUpperCase() + type.substr(1);
-        };
-        Browser.prototype.$new = function (x) {
+        __egretProto__.$new = function (x) {
             return this.$(document.createElement(x));
         };
-        Browser.prototype.$ = function (x) {
+        __egretProto__.$ = function (x) {
             var parent = document;
             var el = (x instanceof HTMLElement) ? x : parent.querySelector(x);
             if (el) {
@@ -156,16 +158,16 @@ var egret;
             }
             return el;
         };
-        Browser.prototype.translate = function (a) {
+        __egretProto__.translate = function (a) {
             return "translate(" + a.x + "px, " + a.y + "px) ";
         };
-        Browser.prototype.rotate = function (a) {
+        __egretProto__.rotate = function (a) {
             return "rotate(" + a + "deg) ";
         };
-        Browser.prototype.scale = function (a) {
+        __egretProto__.scale = function (a) {
             return "scale(" + a.x + ", " + a.y + ") ";
         };
-        Browser.prototype.skew = function (a) {
+        __egretProto__.skew = function (a) {
             return "skewX(" + -a.x + "deg) skewY(" + a.y + "deg)";
         };
         return Browser;

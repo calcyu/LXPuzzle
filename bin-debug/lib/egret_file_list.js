@@ -1,5 +1,6 @@
 var egret_file_list = [
 	"core/egret/i18n/cn.js",
+	"core/egret/utils/extends.js",
 	"core/egret/utils/Logger.js",
 	"core/egret/utils/HashObject.js",
 	"core/egret/utils/Recycler.js",
@@ -47,6 +48,8 @@ var egret_file_list = [
 	"core/egret/display/Graphics.js",
 	"core/egret/display/Shape.js",
 	"core/egret/display/Sprite.js",
+	"core/egret/text/TextFieldUtils.js",
+	"core/egret/text/TextFieldProperties.js",
 	"core/egret/text/TextField.js",
 	"core/egret/text/HtmlTextParser.js",
 	"core/egret/text/TextFieldType.js",
@@ -76,6 +79,7 @@ var egret_file_list = [
 	"core/egret/context/localStorage/localStorage.js",
 	"core/egret/utils/XML.js",
 	"core/egret/utils/ByteArray.js",
+	"core/egret/utils/getOption.js",
 	"core/egret/tween/Tween.js",
 	"core/egret/tween/Ease.js",
 	"core/egret/media/Sound.js",

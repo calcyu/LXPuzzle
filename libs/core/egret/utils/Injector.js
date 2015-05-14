@@ -33,6 +33,7 @@ var egret;
     var Injector = (function () {
         function Injector() {
         }
+        var __egretProto__ = Injector.prototype;
         /**
          * 以类定义为值进行映射注入，当第一次用getInstance()请求它的单例时才会被实例化。
          * @method egret.Injector.mapClass

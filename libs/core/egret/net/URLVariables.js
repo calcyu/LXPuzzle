@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -58,12 +52,13 @@ var egret;
                 this.decode(source);
             }
         }
+        var __egretProto__ = URLVariables.prototype;
         /**
          * 将变量字符串转换为此 URLVariables.variables 对象的属性。
          * @method egret.URLVariables#decode
          * @param source {string}
          */
-        URLVariables.prototype.decode = function (source) {
+        __egretProto__.decode = function (source) {
             if (!this.variables) {
                 this.variables = {};
             }
@@ -90,7 +85,7 @@ var egret;
          * 以 MIME 内容编码格式 application/x-www-form-urlencoded 返回包含所有可枚举变量的字符串。
          * @method egret.URLVariables#toString
          */
-        URLVariables.prototype.toString = function () {
+        __egretProto__.toString = function () {
             if (!this.variables) {
                 return "";
             }
@@ -101,7 +96,7 @@ var egret;
             }
             return stringArray.join("&");
         };
-        URLVariables.prototype.encodeValue = function (key, value) {
+        __egretProto__.encodeValue = function (key, value) {
             if (value instanceof Array) {
                 return this.encodeArray(key, value);
             }
@@ -109,7 +104,7 @@ var egret;
                 return encodeURIComponent(key) + "=" + encodeURIComponent(value);
             }
         };
-        URLVariables.prototype.encodeArray = function (key, value) {
+        __egretProto__.encodeArray = function (key, value) {
             if (!key)
                 return "";
             if (value.length == 0) {

@@ -134,6 +134,7 @@ declare module egret {
         popMask(): void;
         onRenderStart(): void;
         onRenderFinish(): void;
+        drawCursor(x1: number, y1: number, x2: number, y2: number): void;
     }
 }
 declare module egret_h5_graphics {
@@ -224,7 +225,7 @@ declare module egret {
         private currentBatchSize;
         drawRepeatImage(texture: Texture, sourceX: any, sourceY: any, sourceWidth: any, sourceHeight: any, destX: any, destY: any, destWidth: any, destHeight: any, repeat: any): void;
         drawImage(texture: Texture, sourceX: any, sourceY: any, sourceWidth: any, sourceHeight: any, destX: any, destY: any, destWidth: any, destHeight: any, repeat?: any): void;
-        private _draw();
+        private _drawWebGL();
         private worldTransform;
         setTransform(matrix: Matrix): void;
         private worldAlpha;
@@ -671,47 +672,51 @@ declare module egret {
      * @private
      */
     class HTML5StageText extends StageText {
-        private div;
-        private inputElement;
-        private _shape;
         constructor();
-        private static header;
-        /**
-         * 获取当前浏览器类型
-         * @type {string}
-         */
-        private static getTrans(type);
-        /**
-         * 获取当前浏览器的类型
-         * @returns {string}
-         */
-        private static getHeader();
-        private getStageDelegateDiv();
-        _setMultiline(value: boolean): void;
-        private callHandler(e);
-        _add(): void;
-        _remove(): void;
-        private _hasListeners;
-        _addListeners(): void;
-        _removeListeners(): void;
-        private _inputType;
-        private createInput();
-        _open(x: number, y: number, width?: number, height?: number): void;
-        _setScale(x: number, y: number): void;
-        changePosition(x: number, y: number): void;
-        private setStyles();
-        private _isShow;
-        _show(): void;
+        private _isNeedShow;
+        private inputElement;
+        private inputDiv;
+        private _gscaleX;
+        private _gscaleY;
+        _initElement(x: number, y: number, cX: number, cY: number): void;
+        _show(multiline: boolean, size: number, width: number, height: number): void;
+        private onBlurHandler();
+        private executeShow();
+        private _isNeesHide;
         _hide(): void;
         private textValue;
         _getText(): string;
         _setText(value: string): void;
         private resetText();
-        private _width;
-        _setWidth(value: number): void;
-        private _height;
-        _setHeight(value: number): void;
+        _onInput(): void;
+        _onClickHandler(e: any): void;
+        _onDisconnect(): void;
         private _styleInfoes;
         private setElementStyle(style, value);
+        _removeInput(): void;
+        /**
+         * 修改位置
+         * @private
+         */
+        _resetStageText(): void;
+    }
+    class HTMLInput {
+        private _stageText;
+        private _simpleElement;
+        private _multiElement;
+        private _inputElement;
+        _inputDIV: any;
+        isInputOn(): boolean;
+        isCurrentStageText(stageText: any): boolean;
+        private initValue(dom);
+        _needShow: boolean;
+        private initStageDelegateDiv();
+        private initInputElement(multiline);
+        show(): void;
+        disconnectStageText(stageText: any): void;
+        clearInputElement(): void;
+        getInputElement(stageText: any): any;
+        private static _instance;
+        static getInstance(): HTMLInput;
     }
 }

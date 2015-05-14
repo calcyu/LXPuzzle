@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     var FontAnalyzer = (function (_super) {
@@ -37,7 +31,8 @@ var RES;
         function FontAnalyzer() {
             _super.call(this);
         }
-        FontAnalyzer.prototype.analyzeConfig = function (resItem, data) {
+        var __egretProto__ = FontAnalyzer.prototype;
+        __egretProto__.analyzeConfig = function (resItem, data) {
             var name = resItem.name;
             var config;
             var imageUrl = "";
@@ -57,7 +52,7 @@ var RES;
             this.sheetMap[name] = config;
             return imageUrl;
         };
-        FontAnalyzer.prototype.analyzeBitmap = function (resItem, data) {
+        __egretProto__.analyzeBitmap = function (resItem, data) {
             var name = resItem.name;
             if (this.fileDic[name] || !data) {
                 return;
@@ -68,7 +63,7 @@ var RES;
             var bitmapFont = new egret.BitmapFont(texture, config);
             this.fileDic[name] = bitmapFont;
         };
-        FontAnalyzer.prototype.getTexturePath = function (url, fntText) {
+        __egretProto__.getTexturePath = function (url, fntText) {
             var file = "";
             var lines = fntText.split("\n");
             var pngLine = lines[2];
@@ -91,7 +86,7 @@ var RES;
         /**
          * @inheritDoc
          */
-        FontAnalyzer.prototype.destroyRes = function (name) {
+        __egretProto__.destroyRes = function (name) {
             if (this.fileDic[name]) {
                 delete this.fileDic[name];
                 return true;

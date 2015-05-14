@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -53,12 +47,13 @@ var egret;
             this.x = x;
             this.y = y;
         }
+        var __egretProto__ = Point.prototype;
         /**
          * 克隆点对象
          * @method egret.Point#clone
          * @returns {egret.Point}
          */
-        Point.prototype.clone = function () {
+        __egretProto__.clone = function () {
             return new Point(this.x, this.y);
         };
         /**
@@ -67,7 +62,7 @@ var egret;
          * @param {egret.Point} toCompare 要比较的点。
          * @returns {boolean} 如果该对象与此 Point 对象相同，则为 true 值，如果不相同，则为 false。
          */
-        Point.prototype.equals = function (toCompare) {
+        __egretProto__.equals = function (toCompare) {
             return this.x == toCompare.x && this.y == toCompare.y;
         };
         /**

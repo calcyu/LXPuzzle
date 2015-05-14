@@ -35,6 +35,7 @@ var egret;
     var URLRequestMethod = (function () {
         function URLRequestMethod() {
         }
+        var __egretProto__ = URLRequestMethod.prototype;
         /**
          * 表示 URLRequest 对象是一个 GET。
          * @constant {string} egret.URLRequestMethod.GET

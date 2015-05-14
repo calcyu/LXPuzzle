@@ -15,12 +15,6 @@
  * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     /**
@@ -90,13 +84,14 @@ var RES;
              */
             this.queueIndex = 0;
         }
+        var __egretProto__ = ResourceLoader.prototype;
         /**
          * 检查指定的组是否正在加载中
          * @method RES.ResourceLoader#isGroupInLoading
          * @param groupName {string}
          * @returns {boolean}
          */
-        ResourceLoader.prototype.isGroupInLoading = function (groupName) {
+        __egretProto__.isGroupInLoading = function (groupName) {
             return this.itemListDic[groupName] !== undefined;
         };
         /**
@@ -106,7 +101,7 @@ var RES;
          * @param groupName {string} 组名
          * @param priority {number} 加载优先级
          */
-        ResourceLoader.prototype.loadGroup = function (list, groupName, priority) {
+        __egretProto__.loadGroup = function (list, groupName, priority) {
             if (priority === void 0) { priority = 0; }
             if (this.itemListDic[groupName] || !groupName)
                 return;
@@ -136,7 +131,7 @@ var RES;
          * @method RES.ResourceLoader#loadItem
          * @param resItem {egret.ResourceItem} 要加载的项
          */
-        ResourceLoader.prototype.loadItem = function (resItem) {
+        __egretProto__.loadItem = function (resItem) {
             this.lazyLoadList.push(resItem);
             resItem.groupName = "";
             this.next();
@@ -144,7 +139,7 @@ var RES;
         /**
          * 加载下一项
          */
-        ResourceLoader.prototype.next = function () {
+        __egretProto__.next = function () {
             while (this.loadingCount < this.thread) {
                 var resItem = this.getOneResourceItem();
                 if (!resItem)
@@ -165,7 +160,7 @@ var RES;
         /**
          * 获取下一个待加载项
          */
-        ResourceLoader.prototype.getOneResourceItem = function () {
+        __egretProto__.getOneResourceItem = function () {
             if (this.failedList.length > 0)
                 return this.failedList.shift();
             var maxPriority = Number.NEGATIVE_INFINITY;
@@ -196,7 +191,7 @@ var RES;
         /**
          * 加载结束
          */
-        ResourceLoader.prototype.onItemComplete = function (resItem) {
+        __egretProto__.onItemComplete = function (resItem) {
             this.loadingCount--;
             var groupName = resItem.groupName;
             if (!resItem.loaded) {
@@ -243,7 +238,7 @@ var RES;
         /**
          * 从优先级队列中移除指定的组名
          */
-        ResourceLoader.prototype.removeGroupName = function (groupName) {
+        __egretProto__.removeGroupName = function (groupName) {
             for (var p in this.priorityQueue) {
                 var queue = this.priorityQueue[p];
                 var length = queue.length;

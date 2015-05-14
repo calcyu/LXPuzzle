@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -54,6 +48,7 @@ var egret;
             this._stageWidth = 0;
             this._stageHeight = 0;
         }
+        var __egretProto__ = StageDelegate.prototype;
         /**
          * @method egret.StageDelegate.getInstance
          * @returns {StageDelegate}
@@ -71,7 +66,7 @@ var egret;
          * @param width {number}
          * @param height {number}
          */
-        StageDelegate.prototype.setDesignSize = function (width, height) {
+        __egretProto__.setDesignSize = function (width, height) {
             this._designWidth = width;
             this._designHeight = height;
             if (arguments[2]) {
@@ -83,7 +78,7 @@ var egret;
         /**
          * @param resolutionPolic {any}
          */
-        StageDelegate.prototype._setResolutionPolicy = function (resolutionPolicy) {
+        __egretProto__._setResolutionPolicy = function (resolutionPolicy) {
             this._resolutionPolicy = resolutionPolicy;
             resolutionPolicy.init(this);
             resolutionPolicy._apply(this, this._designWidth, this._designHeight);
@@ -91,19 +86,19 @@ var egret;
         /**
          * @method egret.StageDelegate#getScaleX
          */
-        StageDelegate.prototype.getScaleX = function () {
+        __egretProto__.getScaleX = function () {
             return this._scaleX;
         };
         /**
          * @method egret.StageDelegate#getScaleY
          */
-        StageDelegate.prototype.getScaleY = function () {
+        __egretProto__.getScaleY = function () {
             return this._scaleY;
         };
         /**
          * @method egret.StageDelegate#getOffSetY
          */
-        StageDelegate.prototype.getOffSetY = function () {
+        __egretProto__.getOffSetY = function () {
             return this._offSetY;
         };
         /**
@@ -112,7 +107,8 @@ var egret;
         StageDelegate.canvas_name = "egretCanvas";
         /**
          */
-        StageDelegate.canvas_div_name = "gameDiv";
+        StageDelegate.egret_root_div = "gameDiv";
+        StageDelegate.canvas_div_name = "canvasDiv";
         return StageDelegate;
     })(egret.HashObject);
     egret.StageDelegate = StageDelegate;
@@ -125,11 +121,12 @@ var egret;
             this._containerStrategy = containerStg;
             this._contentStrategy = contentStg;
         }
+        var __egretProto__ = ResolutionPolicy.prototype;
         /**
          * @method egret.ResolutionPolicy#init
          * @param view {egret.StageDelegate}
          */
-        ResolutionPolicy.prototype.init = function (view) {
+        __egretProto__.init = function (view) {
             this._containerStrategy.init(view);
             this._contentStrategy.init(view);
         };
@@ -139,7 +136,7 @@ var egret;
          * @param designedResolutionWidth {any}
          * @param designedResolutionHeigh {any}
          */
-        ResolutionPolicy.prototype._apply = function (view, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (view, designedResolutionWidth, designedResolutionHeight) {
             this._containerStrategy._apply(view, designedResolutionWidth, designedResolutionHeight);
             this._contentStrategy._apply(view, designedResolutionWidth, designedResolutionHeight);
         };
@@ -153,6 +150,7 @@ var egret;
     var ContainerStrategy = (function () {
         function ContainerStrategy() {
         }
+        var __egretProto__ = ContainerStrategy.prototype;
         /**
          * @method egret.ContainerStrategy.initialize
          */
@@ -163,7 +161,7 @@ var egret;
          * @method egret.ContainerStrategy#init
          * @param vie {any}
          */
-        ContainerStrategy.prototype.init = function (view) {
+        __egretProto__.init = function (view) {
         };
         /**
          * @method egret.ContainerStrategy#_apply
@@ -171,9 +169,9 @@ var egret;
          * @param designedWidth {any}
          * @param designedHeigh {any}
          */
-        ContainerStrategy.prototype._apply = function (view, designedWidth, designedHeight) {
+        __egretProto__._apply = function (view, designedWidth, designedHeight) {
         };
-        ContainerStrategy.prototype._setupContainer = function () {
+        __egretProto__._setupContainer = function () {
             var body = document.body, style;
             if (body && (style = body.style)) {
                 style.paddingTop = style.paddingTop || "0px";
@@ -204,7 +202,8 @@ var egret;
         function EqualToFrame() {
             _super.apply(this, arguments);
         }
-        EqualToFrame.prototype._apply = function (view) {
+        var __egretProto__ = EqualToFrame.prototype;
+        __egretProto__._apply = function (view) {
             this._setupContainer();
         };
         return EqualToFrame;
@@ -217,11 +216,12 @@ var egret;
     var ContentStrategy = (function () {
         function ContentStrategy() {
         }
+        var __egretProto__ = ContentStrategy.prototype;
         /**
          * @method egret.ContentStrategy#init
          * @param vie {any}
          */
-        ContentStrategy.prototype.init = function (view) {
+        __egretProto__.init = function (view) {
         };
         /**
          * @method egret.ContentStrategy#_apply
@@ -229,14 +229,22 @@ var egret;
          * @param designedResolutionWidth {number}
          * @param designedResolutionHeight {number}
          */
-        ContentStrategy.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
         };
-        ContentStrategy.prototype.setEgretSize = function (w, h, styleW, styleH, left, top) {
+        __egretProto__.setEgretSize = function (w, h, styleW, styleH, left, top) {
             if (left === void 0) { left = 0; }
             if (top === void 0) { top = 0; }
             egret.StageDelegate.getInstance()._stageWidth = Math.round(w);
             egret.StageDelegate.getInstance()._stageHeight = Math.round(h);
-            var container = document.getElementById(StageDelegate.canvas_div_name);
+            var canvasDiv = document.getElementById(StageDelegate.canvas_div_name);
+            var container = document.getElementById(StageDelegate.egret_root_div);
+            if (!canvasDiv) {
+                canvasDiv = egret.Browser.getInstance().$new("div");
+                canvasDiv.id = StageDelegate.canvas_div_name;
+                container.appendChild(canvasDiv);
+            }
+            canvasDiv.style.width = styleW + "px";
+            canvasDiv.style.height = styleH + "px";
             container.style.width = styleW + "px";
             container.style.height = styleH + "px";
             container.style.top = top + "px";
@@ -245,14 +253,14 @@ var egret;
          * 显示区域分辨率宽
          * @returns {number}
          */
-        ContentStrategy.prototype._getClientWidth = function () {
+        __egretProto__._getClientWidth = function () {
             return document.documentElement.clientWidth;
         };
         /**
          * 显示区域分辨率高
          * @returns {number}
          */
-        ContentStrategy.prototype._getClientHeight = function () {
+        __egretProto__._getClientHeight = function () {
             return document.documentElement.clientHeight;
         };
         return ContentStrategy;
@@ -277,13 +285,14 @@ var egret;
             this.minWidth = NaN;
             this.minWidth = minWidth;
         }
+        var __egretProto__ = FixedHeight.prototype;
         /**
          * @method egret.FixedHeight#_apply
          * @param delegate {any}
          * @param designedResolutionWidth {any}
          * @param designedResolutionHeight {any}
          */
-        FixedHeight.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
             var viewPortWidth = this._getClientWidth(); //分辨率宽
             var viewPortHeight = this._getClientHeight(); //分辨率高
             var scale = viewPortHeight / designedResolutionHeight;
@@ -319,7 +328,8 @@ var egret;
             this.minHeight = NaN;
             this.minHeight = minHeight;
         }
-        FixedWidth.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        var __egretProto__ = FixedWidth.prototype;
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
             var viewPortWidth = this._getClientWidth(); //分辨率宽
             var viewPortHeight = this._getClientHeight(); //分辨率高
             var scale = viewPortWidth / designedResolutionWidth;
@@ -351,13 +361,14 @@ var egret;
             this.width = width;
             this.height = height;
         }
+        var __egretProto__ = FixedSize.prototype;
         /**
          * @method egret.FixedSize#_apply
          * @param delegate {egret.StageDelegate}
          * @param designedResolutionWidth {number}
          * @param designedResolutionHeight {number}
          */
-        FixedSize.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
             var viewPortWidth = this.width;
             var viewPortHeight = this.height;
             var scale = viewPortWidth / designedResolutionWidth;
@@ -380,13 +391,14 @@ var egret;
         function NoScale() {
             _super.call(this);
         }
+        var __egretProto__ = NoScale.prototype;
         /**
          * @method egret.NoScale#_apply
          * @param delegate {egret.StageDelegate}
          * @param designedResolutionWidth {number}
          * @param designedResolutionHeight {number}
          */
-        NoScale.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
             var offsetX = Math.floor((designedResolutionWidth - designedResolutionWidth) / 2);
             this.setEgretSize(designedResolutionWidth, designedResolutionHeight, designedResolutionWidth, designedResolutionHeight, offsetX);
             delegate._scaleX = 1;
@@ -404,13 +416,14 @@ var egret;
         function ShowAll() {
             _super.call(this);
         }
+        var __egretProto__ = ShowAll.prototype;
         /**
          * @method egret.NoScale#_apply
          * @param delegate {egret.StageDelegate}
          * @param designedResolutionWidth {number}
          * @param designedResolutionHeight {number}
          */
-        ShowAll.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
             var clientWidth = this._getClientWidth(); //分辨率宽
             var clientHeight = this._getClientHeight(); //分辨率宽
             var viewPortWidth = clientWidth;
@@ -439,13 +452,14 @@ var egret;
         function FullScreen() {
             _super.call(this);
         }
+        var __egretProto__ = FullScreen.prototype;
         /**
          * @method egret.NoScale#_apply
          * @param delegate {egret.StageDelegate}
          * @param designedResolutionWidth {number}
          * @param designedResolutionHeight {number}
          */
-        FullScreen.prototype._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
+        __egretProto__._apply = function (delegate, designedResolutionWidth, designedResolutionHeight) {
             var viewPortWidth = this._getClientWidth(); //分辨率宽
             var viewPortHeight = this._getClientHeight(); //分辨率高
             var designW = designedResolutionWidth;

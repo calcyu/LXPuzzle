@@ -26,6 +26,7 @@ var egret;
     var BlendMode = (function () {
         function BlendMode() {
         }
+        var __egretProto__ = BlendMode.prototype;
         /**
          * 该显示对象出现在背景前面。显示对象的像素值会覆盖背景的像素值。在显示对象为透明的区域，背景是可见的。
          * @constant {string} egret.BlendMode.NORMAL
@@ -48,7 +49,7 @@ var egret;
          * 注意：由于 CanvasAPI 的限制，只会保留 Alpha 值不为1的区域。
          * @constant {string} egret.BlendMode.ERASE
          */
-        BlendMode.ERASE_REVERSE = "erase_reverse";
+        BlendMode.ERASE_REVERSE = "eraseReverse";
         return BlendMode;
     })();
     egret.BlendMode = BlendMode;

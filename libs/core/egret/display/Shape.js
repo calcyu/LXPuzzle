@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -46,7 +40,8 @@ var egret;
             _super.call(this);
             this._graphics = null;
         }
-        Object.defineProperty(Shape.prototype, "graphics", {
+        var __egretProto__ = Shape.prototype;
+        Object.defineProperty(__egretProto__, "graphics", {
             /**
              * 获取 Shape 中的 Graphics 对象。
              * @member {egret.Graphics} egret.Shape#graphics
@@ -61,11 +56,11 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Shape.prototype._render = function (renderContext) {
+        __egretProto__._render = function (renderContext) {
             if (this._graphics)
                 this._graphics._draw(renderContext);
         };
-        Shape.prototype._measureBounds = function () {
+        __egretProto__._measureBounds = function () {
             var graphics = this._graphics;
             if (!graphics) {
                 return _super.prototype._measureBounds.call(this);

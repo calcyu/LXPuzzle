@@ -39,7 +39,8 @@ var egret;
             this.gl = gl;
             this.init();
         }
-        EgretShader.prototype.init = function () {
+        var __egretProto__ = EgretShader.prototype;
+        __egretProto__.init = function () {
             var gl = this.gl;
             var program = egret.WebGLUtils.compileProgram(gl, this.defaultVertexSrc, this.fragmentSrc);
             gl.useProgram(program);
@@ -60,7 +61,7 @@ var egret;
             this.initUniforms();
             this.program = program;
         };
-        EgretShader.prototype.initUniforms = function () {
+        __egretProto__.initUniforms = function () {
             if (!this.uniforms) {
                 return;
             }
@@ -99,7 +100,7 @@ var egret;
                 }
             }
         };
-        EgretShader.prototype.syncUniforms = function () {
+        __egretProto__.syncUniforms = function () {
             if (!this.uniforms) {
                 return;
             }

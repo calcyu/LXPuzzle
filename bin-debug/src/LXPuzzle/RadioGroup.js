@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Created by CalcYu on 2015/4/30.
  */
@@ -15,14 +9,15 @@ var LXPuzzle;
             _super.call(this);
             this.initView();
         }
-        Object.defineProperty(RadioGroup.prototype, "index", {
+        var __egretProto__ = RadioGroup.prototype;
+        Object.defineProperty(__egretProto__, "index", {
             get: function () {
                 return this._index;
             },
             enumerable: true,
             configurable: true
         });
-        RadioGroup.prototype.initView = function () {
+        __egretProto__.initView = function () {
             //背景
             var raidoBg = LXPuzzle.createBitmapByName("raido_bg");
             this.addChild(raidoBg);
@@ -39,7 +34,7 @@ var LXPuzzle;
             }
             this._index = 0;
         };
-        RadioGroup.prototype.radioClickHandler = function (event) {
+        __egretProto__.radioClickHandler = function (event) {
             var radio = event.target;
             this._currRadio.x = 101 + radio.index * 82;
             this._index = radio.index;

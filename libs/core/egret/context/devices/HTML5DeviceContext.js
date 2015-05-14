@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -67,7 +61,8 @@ var egret;
             HTML5DeviceContext.instance = this;
             this.registerListener();
         }
-        HTML5DeviceContext.prototype.enterFrame = function () {
+        var __egretProto__ = HTML5DeviceContext.prototype;
+        __egretProto__.enterFrame = function () {
             var context = HTML5DeviceContext.instance;
             var thisObject = HTML5DeviceContext._thisObject;
             var callback = HTML5DeviceContext._callback;
@@ -82,12 +77,12 @@ var egret;
          * @param callback {Function}
          * @param thisObject {any}
          */
-        HTML5DeviceContext.prototype.executeMainLoop = function (callback, thisObject) {
+        __egretProto__.executeMainLoop = function (callback, thisObject) {
             HTML5DeviceContext._callback = callback;
             HTML5DeviceContext._thisObject = thisObject;
             this.enterFrame();
         };
-        HTML5DeviceContext.prototype.reset = function () {
+        __egretProto__.reset = function () {
             var context = HTML5DeviceContext.instance;
             if (context._requestAnimationId) {
                 context._time = egret.getTimer();
@@ -95,7 +90,7 @@ var egret;
                 context.enterFrame();
             }
         };
-        HTML5DeviceContext.prototype.registerListener = function () {
+        __egretProto__.registerListener = function () {
             var self = this;
             //失去焦点
             var onBlurHandler = function () {

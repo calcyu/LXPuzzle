@@ -34,6 +34,7 @@ var egret;
         function Ease() {
             egret.Logger.fatalWithErrorId(1014);
         }
+        var __egretProto__ = Ease.prototype;
         Ease.get = function (amount) {
             if (amount < -1) {
                 amount = -1;

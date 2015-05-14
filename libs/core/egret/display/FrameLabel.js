@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     var FrameLabel = (function (_super) {
@@ -39,7 +33,8 @@ var egret;
             this._name = name;
             this._frame = frame | 0;
         }
-        Object.defineProperty(FrameLabel.prototype, "name", {
+        var __egretProto__ = FrameLabel.prototype;
+        Object.defineProperty(__egretProto__, "name", {
             /**
              * 标签名
              * @member {string} egret.FrameLabel#name
@@ -50,7 +45,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(FrameLabel.prototype, "frame", {
+        Object.defineProperty(__egretProto__, "frame", {
             /**
              * 标签所在帧序号
              * @member {number} egret.FrameLabel#frame
@@ -65,7 +60,7 @@ var egret;
          * 复制当前帧标签对象
          * @method egret.FrameLabel#clone
          */
-        FrameLabel.prototype.clone = function () {
+        __egretProto__.clone = function () {
             return new FrameLabel(this._name, this._frame);
         };
         return FrameLabel;

@@ -33,13 +33,14 @@ var RES;
             this.groupDic = {};
             RES["configInstance"] = this;
         }
+        var __egretProto__ = ResourceConfig.prototype;
         /**
          * 根据组名获取组加载项列表
          * @method RES.ResourceConfig#getGroupByName
          * @param name {string} 组名
          * @returns {Array<egret.ResourceItem>}
          */
-        ResourceConfig.prototype.getGroupByName = function (name) {
+        __egretProto__.getGroupByName = function (name) {
             var group = new Array();
             if (!this.groupDic[name])
                 return group;
@@ -57,7 +58,7 @@ var RES;
          * @param name {string} 组名
          * @returns {Array<any>}
          */
-        ResourceConfig.prototype.getRawGroupByName = function (name) {
+        __egretProto__.getRawGroupByName = function (name) {
             if (this.groupDic[name])
                 return this.groupDic[name];
             return [];
@@ -71,7 +72,7 @@ var RES;
          * @param override {boolean} 是否覆盖已经存在的同名资源组,默认false。
          * @returns {boolean}
          */
-        ResourceConfig.prototype.createGroup = function (name, keys, override) {
+        __egretProto__.createGroup = function (name, keys, override) {
             if (override === void 0) { override = false; }
             if ((!override && this.groupDic[name]) || !keys || keys.length == 0)
                 return false;
@@ -111,7 +112,7 @@ var RES;
          * @param data {any} 配置文件数据
          * @param folder {string} 加载项的路径前缀。
          */
-        ResourceConfig.prototype.parseConfig = function (data, folder) {
+        __egretProto__.parseConfig = function (data, folder) {
             if (!data)
                 return;
             var resources = data["resources"];
@@ -150,7 +151,7 @@ var RES;
          * @param subkey {string} 要添加的二级键名
          * @param name {string} 二级键名所属的资源name属性
          */
-        ResourceConfig.prototype.addSubkey = function (subkey, name) {
+        __egretProto__.addSubkey = function (subkey, name) {
             var item = this.keyMap[name];
             if (item && !this.keyMap[subkey]) {
                 this.keyMap[subkey] = item;
@@ -159,7 +160,7 @@ var RES;
         /**
          * 添加一个加载项数据到列表
          */
-        ResourceConfig.prototype.addItemToKeyMap = function (item) {
+        __egretProto__.addItemToKeyMap = function (item) {
             if (!this.keyMap[item.name])
                 this.keyMap[item.name] = item;
             if (item.hasOwnProperty("subkeys")) {
@@ -180,7 +181,7 @@ var RES;
          * @param key {string} 对应配置文件里的name属性或sbuKeys属性的一项。
          * @returns {string}
          */
-        ResourceConfig.prototype.getName = function (key) {
+        __egretProto__.getName = function (key) {
             var data = this.keyMap[key];
             return data ? data.name : "";
         };
@@ -190,11 +191,11 @@ var RES;
          * @param key {string} 对应配置文件里的name属性或sbuKeys属性的一项。
          * @returns {string}
          */
-        ResourceConfig.prototype.getType = function (key) {
+        __egretProto__.getType = function (key) {
             var data = this.keyMap[key];
             return data ? data.type : "";
         };
-        ResourceConfig.prototype.getRawResourceItem = function (key) {
+        __egretProto__.getRawResourceItem = function (key) {
             return this.keyMap[key];
         };
         /**
@@ -203,7 +204,7 @@ var RES;
          * @param key {string} 对应配置文件里的key属性或sbuKeys属性的一项。
          * @returns {egret.ResourceItem}
          */
-        ResourceConfig.prototype.getResourceItem = function (key) {
+        __egretProto__.getResourceItem = function (key) {
             var data = this.keyMap[key];
             if (data)
                 return this.parseResourceItem(data);
@@ -212,7 +213,7 @@ var RES;
         /**
          * 转换Object数据为ResourceItem对象
          */
-        ResourceConfig.prototype.parseResourceItem = function (data) {
+        __egretProto__.parseResourceItem = function (data) {
             var resItem = new RES.ResourceItem(data.name, data.url, data.type);
             resItem.data = data;
             return resItem;

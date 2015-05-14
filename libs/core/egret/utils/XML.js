@@ -50,6 +50,7 @@ var egret;
     var XML = (function () {
         function XML() {
         }
+        var __egretProto__ = XML.prototype;
         /**
          * 解析一个XML字符串为JSON对象。
          * @method egret.XML.parse

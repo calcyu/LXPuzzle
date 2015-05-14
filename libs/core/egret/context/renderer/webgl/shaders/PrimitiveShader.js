@@ -46,7 +46,8 @@ var egret;
             this.gl = gl;
             this.init();
         }
-        PrimitiveShader.prototype.init = function () {
+        var __egretProto__ = PrimitiveShader.prototype;
+        __egretProto__.init = function () {
             var gl = this.gl;
             var program = egret.WebGLUtils.compileProgram(gl, this.vertexSrc, this.fragmentSrc);
             gl.useProgram(program);

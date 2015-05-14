@@ -34,6 +34,7 @@ var egret;
     var HorizontalAlign = (function () {
         function HorizontalAlign() {
         }
+        var __egretProto__ = HorizontalAlign.prototype;
         /**
          * 左对齐
          * @constant egret.HorizontalAlign.LEFT

@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -69,7 +63,8 @@ var egret;
             }
             this.needDraw = true;
         }
-        Object.defineProperty(Bitmap.prototype, "texture", {
+        var __egretProto__ = Bitmap.prototype;
+        Object.defineProperty(__egretProto__, "texture", {
             /**
              * 渲染纹理
              * @member {egret.Texture} egret.Bitmap#texture
@@ -87,7 +82,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Bitmap.prototype._render = function (renderContext) {
+        __egretProto__._render = function (renderContext) {
             var texture = this._texture;
             if (!texture) {
                 this._texture_to_render = null;
@@ -211,7 +206,7 @@ var egret;
          * @returns {egret.Rectangle}
          * @private
          */
-        Bitmap.prototype._measureBounds = function () {
+        __egretProto__._measureBounds = function () {
             var texture = this._texture;
             if (!texture) {
                 return _super.prototype._measureBounds.call(this);

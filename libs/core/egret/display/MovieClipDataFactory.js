@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -56,11 +50,12 @@ var egret;
             this._mcDataSet = movieClipDataSet;
             this.setTexture(texture);
         }
+        var __egretProto__ = MovieClipDataFactory.prototype;
         /**
          * 清空缓存
          * @method egret.MovieClipDataFactory#clearCache
          */
-        MovieClipDataFactory.prototype.clearCache = function () {
+        __egretProto__.clearCache = function () {
             this._mcDataCache = {};
         };
         /**
@@ -69,7 +64,7 @@ var egret;
          * @param movieClipName {string} MovieClip名字. 可选参数，默认为"", 相当于取第一个MovieClip数据
          * @returns {MovieClipData} 生成的MovieClipData对象
          */
-        MovieClipDataFactory.prototype.generateMovieClipData = function (movieClipName) {
+        __egretProto__.generateMovieClipData = function (movieClipName) {
             if (movieClipName === void 0) { movieClipName = ""; }
             if (movieClipName == "") {
                 if (this._mcDataSet) {
@@ -88,13 +83,13 @@ var egret;
             }
             return output;
         };
-        MovieClipDataFactory.prototype._findFromCache = function (movieClipName, cache) {
+        __egretProto__._findFromCache = function (movieClipName, cache) {
             if (this.enableCache && cache[movieClipName]) {
                 return cache[movieClipName];
             }
             return null;
         };
-        MovieClipDataFactory.prototype._fillData = function (movieClipName, movieClip, cache) {
+        __egretProto__._fillData = function (movieClipName, movieClip, cache) {
             if (this._mcDataSet) {
                 var mcData = this._mcDataSet.mc[movieClipName];
                 if (mcData) {
@@ -105,7 +100,7 @@ var egret;
                 }
             }
         };
-        Object.defineProperty(MovieClipDataFactory.prototype, "mcDataSet", {
+        Object.defineProperty(__egretProto__, "mcDataSet", {
             /**
              * MovieClip数据集
              * @member {any} egret.MovieClipDataFactory#mcDataSet
@@ -119,7 +114,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClipDataFactory.prototype, "texture", {
+        Object.defineProperty(__egretProto__, "texture", {
             /**
              * MovieClip需要使用的纹理图
              * @member {Texture} egret.MovieClipDataFactory#texture
@@ -130,7 +125,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClipDataFactory.prototype, "spriteSheet", {
+        Object.defineProperty(__egretProto__, "spriteSheet", {
             /**
              * 由纹理图生成的精灵表
              * @member {SpriteSheet} egret.MovieClipDataFactory#spriteSheet
@@ -141,7 +136,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        MovieClipDataFactory.prototype.setTexture = function (value) {
+        __egretProto__.setTexture = function (value) {
             this._spriteSheet = value ? new egret.SpriteSheet(value) : null;
         };
         return MovieClipDataFactory;

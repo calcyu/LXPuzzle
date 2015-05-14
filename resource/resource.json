@@ -7,7 +7,7 @@
 	"resources":[
 	{
 		"name":"UI_json",
-		"subkeys":"back_btn,frame1,frame2,hight,left,low,middle,raido,raido_bg,right,start_btn,text1",
+		"subkeys":"back_btn,dialog,frame1,frame2,left,playAgain_btn,raido,raido_bg,right,share_btn,start_btn",
 		"type":"sheet",
 		"url":"assets/UI.json"
 	},

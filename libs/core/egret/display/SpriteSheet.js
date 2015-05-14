@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -66,27 +60,23 @@ var egret;
              */
             this._bitmapY = 0;
             /**
-             * 共享的位图数据
-             */
-            this.bitmapData = 0;
-            /**
              * 纹理缓存字典
              */
             this._textureMap = {};
-            var bitmapData = texture.bitmapData;
-            this.bitmapData = bitmapData;
-            this._sourceWidth = bitmapData.width;
-            this._sourceHeight = bitmapData.height;
+            this.texture = texture;
+            this._sourceWidth = texture._sourceWidth;
+            this._sourceHeight = texture._sourceHeight;
             this._bitmapX = texture._bitmapX - texture._offsetX;
             this._bitmapY = texture._bitmapY - texture._offsetY;
         }
+        var __egretProto__ = SpriteSheet.prototype;
         /**
          * 根据指定纹理名称获取一个缓存的 Texture 对象
          * @method egret.SpriteSheet#getTexture
          * @param name {string} 缓存这个 Texture 对象所使用的名称
          * @returns {egret.Texture} Texture 对象
          */
-        SpriteSheet.prototype.getTexture = function (name) {
+        __egretProto__.getTexture = function (name) {
             return this._textureMap[name];
         };
         /**
@@ -103,7 +93,7 @@ var egret;
          * @param textureHeight {number} 原始位图的宽度，若不传入，则使用 bitmapHeight 的值。
          * @returns {egret.Texture} 创建的 Texture 对象
          */
-        SpriteSheet.prototype.createTexture = function (name, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight) {
+        __egretProto__.createTexture = function (name, bitmapX, bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight) {
             if (offsetX === void 0) { offsetX = 0; }
             if (offsetY === void 0) { offsetY = 0; }
             if (typeof textureWidth === "undefined") {
@@ -112,9 +102,8 @@ var egret;
             if (typeof textureHeight === "undefined") {
                 textureHeight = offsetY + bitmapHeight;
             }
-            var texture = new egret.Texture();
+            var texture = this.texture._clone();
             var scale = egret.MainContext.instance.rendererContext._texture_scale_factor;
-            texture._bitmapData = this.bitmapData;
             texture._bitmapX = this._bitmapX + bitmapX;
             texture._bitmapY = this._bitmapY + bitmapY;
             texture._bitmapWidth = bitmapWidth * scale;

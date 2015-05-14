@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -49,17 +43,18 @@ var egret;
             this.thisObject = null;
             egret.TextField.default_fontFamily = "/system/fonts/DroidSansFallback.ttf";
         }
+        var __egretProto__ = NativeDeviceContext.prototype;
         /**
          * @method egret.NativeDeviceContext#executeMainLoop
          * @param callback {Function}
          * @param thisObject {any}
          */
-        NativeDeviceContext.prototype.executeMainLoop = function (callback, thisObject) {
+        __egretProto__.executeMainLoop = function (callback, thisObject) {
             this.callback = callback;
             this.thisObject = thisObject;
             egret_native.executeMainLoop(this.onEnterFrame, this);
         };
-        NativeDeviceContext.prototype.onEnterFrame = function (advancedTime) {
+        __egretProto__.onEnterFrame = function (advancedTime) {
             this.callback.call(this.thisObject, advancedTime);
         };
         return NativeDeviceContext;
@@ -227,6 +222,9 @@ egret.ContentStrategy.prototype.setEgretSize = function (w, h, styleW, styleH, l
     egret_native.EGTView.setVisibleRect(left, top, styleW, styleH);
     egret_native.EGTView.setDesignSize(w, h);
 };
+egret.Logger.openLogByType = function (logType) {
+    egret_native.loglevel(logType);
+};
 egret_native.pauseApp = function () {
     egret.MainContext.instance.stage.dispatchEvent(new egret.Event(egret.Event.DEACTIVATE));
 };
@@ -253,4 +251,8 @@ egret.RenderTexture.prototype.dispose = function () {
         this.renderContext = null;
         this._bitmapData = null;
     }
+};
+egret.getOption = function (key) {
+    console.log("egret_native.getOption");
+    return egret_native.getOption(key);
 };

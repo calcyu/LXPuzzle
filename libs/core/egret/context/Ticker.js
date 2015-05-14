@@ -24,16 +24,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
-     * Ticker是egret引擎的心跳控制器，是游戏唯一的时间处理入口。开发者务必不要使用Ticker,应该使用egret.Timer。
+     * Ticker是egret引擎的心跳控制器，是游戏唯一的时间处理入口。
      */
     var Ticker = (function (_super) {
         __extends(Ticker, _super);
@@ -47,18 +41,19 @@ var egret;
                 egret.Logger.fatalWithErrorId(1002);
             }
         }
+        var __egretProto__ = Ticker.prototype;
         /**
          * 启动心跳控制器。
          * 这个函数应只在游戏初始化时调用一次
          * @method egret.Ticker#run
          * @stable A
          */
-        Ticker.prototype.run = function () {
+        __egretProto__.run = function () {
             egret.__START_TIME = new Date().getTime();
             var context = egret.MainContext.instance.deviceContext;
             context.executeMainLoop(this.update, this);
         };
-        Ticker.prototype.update = function (advancedTime) {
+        __egretProto__.update = function (advancedTime) {
             if (this._paused) {
                 return;
             }
@@ -81,7 +76,7 @@ var egret;
          * @param priority {number} 事件优先级，开发者请勿传递 Number.NEGATIVE_INFINITY 和 Number.POSITIVE_INFINITY
          * @stable A-
          */
-        Ticker.prototype.register = function (listener, thisObject, priority) {
+        __egretProto__.register = function (listener, thisObject, priority) {
             if (priority === void 0) { priority = 0; }
             var list = this.callBackList;
             this._insertEventBin(list, listener, thisObject, priority);
@@ -93,7 +88,7 @@ var egret;
          * @param thisObject {any} 侦听函数的this对象
          * @stable A-
          */
-        Ticker.prototype.unregister = function (listener, thisObject) {
+        __egretProto__.unregister = function (listener, thisObject) {
             var list = this.callBackList;
             this._removeEventBin(list, listener, thisObject);
             if (this._callList && this._callIndex > -1) {
@@ -109,7 +104,7 @@ var egret;
          * @param ...parameter {any}
          * @deprecated
          */
-        Ticker.prototype.setTimeout = function (listener, thisObject, delay) {
+        __egretProto__.setTimeout = function (listener, thisObject, delay) {
             var parameters = [];
             for (var _i = 3; _i < arguments.length; _i++) {
                 parameters[_i - 3] = arguments[_i];
@@ -121,25 +116,25 @@ var egret;
          * @method egret.Ticker#setTimeScale
          * @param timeScale {number}
          */
-        Ticker.prototype.setTimeScale = function (timeScale) {
+        __egretProto__.setTimeScale = function (timeScale) {
             this._timeScale = timeScale;
         };
         /**
          * @method egret.Ticker#getTimeScale
          */
-        Ticker.prototype.getTimeScale = function () {
+        __egretProto__.getTimeScale = function () {
             return this._timeScale;
         };
         /**
          * @method egret.Ticker#pause
          */
-        Ticker.prototype.pause = function () {
+        __egretProto__.pause = function () {
             this._paused = true;
         };
         /**
          * @method egret.Ticker#resume
          */
-        Ticker.prototype.resume = function () {
+        __egretProto__.resume = function () {
             this._paused = false;
         };
         /**

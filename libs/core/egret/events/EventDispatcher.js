@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -75,6 +69,7 @@ var egret;
                 this._eventTarget = this;
             }
         }
+        var __egretProto__ = EventDispatcher.prototype;
         /**
          * 添加事件侦听器
          * @method egret.EventDispatcher#addEventListener
@@ -88,7 +83,7 @@ var egret;
          * @param  priority {number} 事件侦听器的优先级。优先级由一个带符号的 32 位整数指定。数字越大，优先级越高。优先级为 n 的所有侦听器会在
          * 优先级为 n -1 的侦听器之前得到处理。如果两个或更多个侦听器共享相同的优先级，则按照它们的添加顺序进行处理。默认优先级为 0。
          */
-        EventDispatcher.prototype.addEventListener = function (type, listener, thisObject, useCapture, priority) {
+        __egretProto__.addEventListener = function (type, listener, thisObject, useCapture, priority) {
             if (useCapture === void 0) { useCapture = false; }
             if (priority === void 0) { priority = 0; }
             if (typeof useCapture === "undefined") {
@@ -120,13 +115,13 @@ var egret;
         /**
          * 在一个事件列表中按优先级插入事件对象
          */
-        EventDispatcher.prototype._insertEventBin = function (list, listener, thisObject, priority, display) {
+        __egretProto__._insertEventBin = function (list, listener, thisObject, priority, display) {
             if (display === void 0) { display = undefined; }
             var insertIndex = -1;
             var length = list.length;
             for (var i = 0; i < length; i++) {
                 var bin = list[i];
-                if (bin.listener === listener && bin.thisObject === thisObject && bin.display === display) {
+                if (bin.listener == listener && bin.thisObject == thisObject && bin.display == display) {
                     return false;
                 }
                 if (insertIndex == -1 && bin.priority < priority) {
@@ -153,7 +148,7 @@ var egret;
          * @param thisObject {any} 侦听函数绑定的this对象
          * @param useCapture {boolean} 是否使用捕获，这个属性只在显示列表中生效。
          */
-        EventDispatcher.prototype.removeEventListener = function (type, listener, thisObject, useCapture) {
+        __egretProto__.removeEventListener = function (type, listener, thisObject, useCapture) {
             if (useCapture === void 0) { useCapture = false; }
             var eventMap = useCapture ? this._captureEventsMap : this._eventsMap;
             if (!eventMap)
@@ -170,13 +165,13 @@ var egret;
         /**
          * 在一个事件列表中按优先级插入事件对象
          */
-        EventDispatcher.prototype._removeEventBin = function (list, listener, thisObject, display, fromIdx) {
+        __egretProto__._removeEventBin = function (list, listener, thisObject, display, fromIdx) {
             if (display === void 0) { display = undefined; }
             if (fromIdx === void 0) { fromIdx = 0; }
             var length = list.length;
             for (var i = fromIdx; i < length; i++) {
                 var bin = list[i];
-                if (bin.listener === listener && bin.thisObject === thisObject && bin.display == display) {
+                if (bin.listener == listener && bin.thisObject == thisObject && bin.display == display) {
                     list.splice(i, 1);
                     return true;
                 }
@@ -190,8 +185,8 @@ var egret;
          * @returns {boolean}
          * @stable A
          */
-        EventDispatcher.prototype.hasEventListener = function (type) {
-            return (this._eventsMap && this._eventsMap[type] || this._captureEventsMap && this._captureEventsMap[type]);
+        __egretProto__.hasEventListener = function (type) {
+            return !!(this._eventsMap && this._eventsMap[type] || this._captureEventsMap && this._captureEventsMap[type]);
         };
         /**
          * 检查是否用此 EventDispatcher 对象或其任何始祖为指定事件类型注册了事件侦听器。将指定类型的事件调度给此
@@ -202,7 +197,7 @@ var egret;
          * @param type {string} 事件类型
          * @returns {boolean} 是否注册过监听器，如果注册过返回true，反之返回false
          */
-        EventDispatcher.prototype.willTrigger = function (type) {
+        __egretProto__.willTrigger = function (type) {
             return this.hasEventListener(type);
         };
         /**
@@ -211,13 +206,13 @@ var egret;
          * @param event {egret.Event} 调度到事件流中的 Event 对象。如果正在重新分派事件，则会自动创建此事件的一个克隆。 在调度了事件后，其 _eventTarget 属性将无法更改，因此您必须创建此事件的一个新副本以能够重新调度。
          * @returns {boolean} 如果成功调度了事件，则值为 true。值 false 表示失败或对事件调用了 preventDefault()。
          */
-        EventDispatcher.prototype.dispatchEvent = function (event) {
+        __egretProto__.dispatchEvent = function (event) {
             event._reset();
             event._target = this._eventTarget;
             event._currentTarget = this._eventTarget;
             return this._notifyListener(event);
         };
-        EventDispatcher.prototype._notifyListener = function (event) {
+        __egretProto__._notifyListener = function (event) {
             var eventMap = event._eventPhase == 1 ? this._captureEventsMap : this._eventsMap;
             if (!eventMap) {
                 return true;
@@ -247,7 +242,7 @@ var egret;
          * @param bubbles {boolean} 是否冒泡，默认false
          * @param data {any}附加数据(可选)
          */
-        EventDispatcher.prototype.dispatchEventWith = function (type, bubbles, data) {
+        __egretProto__.dispatchEventWith = function (type, bubbles, data) {
             if (bubbles === void 0) { bubbles = false; }
             egret.Event.dispatchEvent(this, type, bubbles, data);
         };

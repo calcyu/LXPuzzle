@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -68,7 +62,8 @@ var egret;
             this._setMovieClipData(movieClipData);
             this.needDraw = true;
         }
-        MovieClip.prototype._init = function () {
+        var __egretProto__ = MovieClip.prototype;
+        __egretProto__._init = function () {
             this._reset();
             var movieClipData = this._movieClipData;
             if (movieClipData && movieClipData._isDataValid()) {
@@ -79,7 +74,7 @@ var egret;
                 this._initFrame();
             }
         };
-        MovieClip.prototype._reset = function () {
+        __egretProto__._reset = function () {
             this._frames = null;
             this._playTimes = 0;
             this._isPlaying = false;
@@ -90,13 +85,13 @@ var egret;
             this._passedTime = 0;
             this._eventPool = [];
         };
-        MovieClip.prototype._initFrame = function () {
+        __egretProto__._initFrame = function () {
             if (this._movieClipData._isTextureValid()) {
                 this._advanceFrame();
                 this._constructFrame();
             }
         };
-        MovieClip.prototype._render = function (renderContext) {
+        __egretProto__._render = function (renderContext) {
             var texture = this._textureToRender;
             this._texture_to_render = texture;
             if (texture) {
@@ -109,7 +104,7 @@ var egret;
                 MovieClip.renderFilter.drawImage(renderContext, this, texture._bitmapX, texture._bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, destW, destH);
             }
         };
-        MovieClip.prototype._measureBounds = function () {
+        __egretProto__._measureBounds = function () {
             var texture = this._textureToRender;
             if (!texture) {
                 return _super.prototype._measureBounds.call(this);
@@ -120,14 +115,14 @@ var egret;
             var h = texture._textureHeight;
             return egret.Rectangle.identity.initialize(x, y, w, h);
         };
-        MovieClip.prototype._onAddToStage = function () {
+        __egretProto__._onAddToStage = function () {
             _super.prototype._onAddToStage.call(this);
             this._isAddedToStage = true;
             if (this._isPlaying && this._totalFrames > 1) {
                 this.setIsStopped(false);
             }
         };
-        MovieClip.prototype._onRemoveFromStage = function () {
+        __egretProto__._onRemoveFromStage = function () {
             _super.prototype._onRemoveFromStage.call(this);
             this._isAddedToStage = false;
             this.setIsStopped(true);
@@ -140,7 +135,7 @@ var egret;
          * @param ignoreCase {boolean} 是否忽略大小写，可选参数，默认false
          * @returns {egret.FrameLabel} FrameLabel对象
          */
-        MovieClip.prototype._getFrameLabelByName = function (labelName, ignoreCase) {
+        __egretProto__._getFrameLabelByName = function (labelName, ignoreCase) {
             if (ignoreCase === void 0) { ignoreCase = false; }
             if (ignoreCase) {
                 labelName = labelName.toLowerCase();
@@ -163,7 +158,7 @@ var egret;
          * @param frame {number} 帧序号
          * @returns {egret.FrameLabel} FrameLabel对象
          */
-        MovieClip.prototype._getFrameLabelByFrame = function (frame) {
+        __egretProto__._getFrameLabelByFrame = function (frame) {
             var frameLabels = this._frameLabels;
             if (frameLabels) {
                 var outputFramelabel = null;
@@ -182,7 +177,7 @@ var egret;
          * @param frame {number} 帧序号
          * @returns {egret.FrameLabel} FrameLabel对象
          */
-        MovieClip.prototype._getFrameLabelForFrame = function (frame) {
+        __egretProto__._getFrameLabelForFrame = function (frame) {
             var outputFrameLabel = null;
             var tempFrameLabel = null;
             var frameLabels = this._frameLabels;
@@ -203,7 +198,7 @@ var egret;
          * @method egret.MovieClip#play
          * @param playTimes {number} 播放次数。 参数为整数，可选参数，>=1：设定播放次数，<0：循环播放，默认值 0：不改变播放次数(MovieClip初始播放次数设置为1)，
          */
-        MovieClip.prototype.play = function (playTimes) {
+        __egretProto__.play = function (playTimes) {
             if (playTimes === void 0) { playTimes = 0; }
             this._isPlaying = true;
             this.setPlayTimes(playTimes);
@@ -215,7 +210,7 @@ var egret;
          * 暂停播放动画
          * @method egret.MovieClip#stop
          */
-        MovieClip.prototype.stop = function () {
+        __egretProto__.stop = function () {
             this._isPlaying = false;
             this.setIsStopped(true);
         };
@@ -223,14 +218,14 @@ var egret;
          * 将播放头移到前一帧并停止
          * @method egret.MovieClip#prevFrame
          */
-        MovieClip.prototype.prevFrame = function () {
+        __egretProto__.prevFrame = function () {
             this.gotoAndStop(this._currentFrameNum - 1);
         };
         /**
          * 跳到后一帧并停止
          * @method egret.MovieClip#prevFrame
          */
-        MovieClip.prototype.nextFrame = function () {
+        __egretProto__.nextFrame = function () {
             this.gotoAndStop(this._currentFrameNum + 1);
         };
         /**
@@ -239,7 +234,7 @@ var egret;
          * @param frame {any} 指定帧的帧号或帧标签
          * @param playTimes {number} 播放次数。 参数为整数，可选参数，>=1：设定播放次数，<0：循环播放，默认值 0：不改变播放次数，
          */
-        MovieClip.prototype.gotoAndPlay = function (frame, playTimes) {
+        __egretProto__.gotoAndPlay = function (frame, playTimes) {
             if (playTimes === void 0) { playTimes = 0; }
             if (arguments.length === 0 || arguments.length > 2) {
                 throw new Error(egret.getString(1022, "MovieClip.gotoAndPlay()"));
@@ -252,14 +247,14 @@ var egret;
          * @method egret.MovieClip#gotoAndPlay
          * @param frame {any} 指定帧的帧号或帧标签
          */
-        MovieClip.prototype.gotoAndStop = function (frame) {
+        __egretProto__.gotoAndStop = function (frame) {
             if (arguments.length != 1) {
                 throw new Error(egret.getString(1022, "MovieClip.gotoAndStop()"));
             }
             this.stop();
             this._gotoFrame(frame);
         };
-        MovieClip.prototype._gotoFrame = function (frame) {
+        __egretProto__._gotoFrame = function (frame) {
             var frameNum;
             if (typeof frame === "string") {
                 frameNum = this._getFrameLabelByName(frame).frame;
@@ -284,7 +279,7 @@ var egret;
             this._constructFrame();
             this._handlePendingEvent();
         };
-        MovieClip.prototype._advanceTime = function (advancedTime) {
+        __egretProto__._advanceTime = function (advancedTime) {
             var frameIntervalTime = this._frameIntervalTime;
             var currentTime = this._passedTime + advancedTime;
             this._passedTime = currentTime % frameIntervalTime;
@@ -319,10 +314,10 @@ var egret;
             this._constructFrame();
             this._handlePendingEvent();
         };
-        MovieClip.prototype._advanceFrame = function () {
+        __egretProto__._advanceFrame = function () {
             this._currentFrameNum = this._nextFrameNum;
         };
-        MovieClip.prototype._constructFrame = function () {
+        __egretProto__._constructFrame = function () {
             var currentFrameNum = this._currentFrameNum;
             if (this._displayedKeyFrameNum == currentFrameNum) {
                 return;
@@ -330,7 +325,7 @@ var egret;
             this._textureToRender = this._movieClipData.getTextureByFrame(currentFrameNum);
             this._displayedKeyFrameNum = currentFrameNum;
         };
-        MovieClip.prototype._handlePendingEvent = function () {
+        __egretProto__._handlePendingEvent = function () {
             if (this._eventPool.length != 0) {
                 this._eventPool.reverse();
                 var eventPool = this._eventPool;
@@ -357,7 +352,7 @@ var egret;
                 }
             }
         };
-        Object.defineProperty(MovieClip.prototype, "totalFrames", {
+        Object.defineProperty(__egretProto__, "totalFrames", {
             //Properties
             /**
              * MovieClip 实例中帧的总数
@@ -369,7 +364,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClip.prototype, "currentFrame", {
+        Object.defineProperty(__egretProto__, "currentFrame", {
             /**
              * MovieClip 实例当前播放的帧的序号
              * @member {number} egret.MovieClip#currentFrame
@@ -380,7 +375,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClip.prototype, "currentFrameLabel", {
+        Object.defineProperty(__egretProto__, "currentFrameLabel", {
             /**
              * MovieClip 实例当前播放的帧的标签。如果当前帧没有标签，则 currentFrameLabel返回null。
              * @member {number} egret.MovieClip#currentFrame
@@ -392,7 +387,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClip.prototype, "currentLabel", {
+        Object.defineProperty(__egretProto__, "currentLabel", {
             /**
              * 当前播放的帧对应的标签，如果当前帧没有标签，则currentLabel返回包含标签的先前帧的标签。如果当前帧和先前帧都不包含标签，currentLabel返回null。
              * @member {number} egret.MovieClip#currentFrame
@@ -404,7 +399,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClip.prototype, "frameRate", {
+        Object.defineProperty(__egretProto__, "frameRate", {
             /**
              * MovieClip 实例的帧频
              * @member {number} egret.MovieClip#frameRate
@@ -422,7 +417,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClip.prototype, "isPlaying", {
+        Object.defineProperty(__egretProto__, "isPlaying", {
             /**
              * MovieClip 实例当前是否正在播放
              * @member {boolean} egret.MovieClip#isPlaying
@@ -433,7 +428,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MovieClip.prototype, "movieClipData", {
+        Object.defineProperty(__egretProto__, "movieClipData", {
             get: function () {
                 return this._movieClipData;
             },
@@ -447,19 +442,19 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        MovieClip.prototype._setMovieClipData = function (value) {
+        __egretProto__._setMovieClipData = function (value) {
             if (this._movieClipData == value) {
                 return;
             }
             this._movieClipData = value;
             this._init();
         };
-        MovieClip.prototype.setPlayTimes = function (value) {
+        __egretProto__.setPlayTimes = function (value) {
             if (value < 0 || value >= 1) {
                 this._playTimes = value < 0 ? -1 : Math.floor(value);
             }
         };
-        MovieClip.prototype.setIsStopped = function (value) {
+        __egretProto__.setIsStopped = function (value) {
             if (this._isStopped == value) {
                 return;
             }

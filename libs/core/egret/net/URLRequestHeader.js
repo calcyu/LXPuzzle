@@ -50,6 +50,7 @@ var egret;
             this.name = name;
             this.value = value;
         }
+        var __egretProto__ = URLRequestHeader.prototype;
         return URLRequestHeader;
     })();
     egret.URLRequestHeader = URLRequestHeader;

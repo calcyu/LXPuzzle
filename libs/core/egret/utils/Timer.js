@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -58,7 +52,8 @@ var egret;
             this.delay = delay;
             this.repeatCount = repeatCount;
         }
-        Object.defineProperty(Timer.prototype, "currentCount", {
+        var __egretProto__ = Timer.prototype;
+        Object.defineProperty(__egretProto__, "currentCount", {
             /**
              * 计时器从 0 开始后触发的总次数。如果已重置了计时器，则只会计入重置后的触发次数。
              * @method egret.Timer#currentCount
@@ -69,7 +64,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Timer.prototype, "running", {
+        Object.defineProperty(__egretProto__, "running", {
             /**
              * 计时器的当前状态；如果计时器正在运行，则为 true，否则为 false。
              * @member {boolean} egret.Timer#running
@@ -84,7 +79,7 @@ var egret;
          * 如果计时器正在运行，则停止计时器，并将 currentCount 属性设回为 0，这类似于秒表的重置按钮。然后，在调用 start() 后，将运行计时器实例，运行次数为指定的重复次数（由 repeatCount 值设置）。
          * @method egret.Timer#reset
          */
-        Timer.prototype.reset = function () {
+        __egretProto__.reset = function () {
             this.stop();
             this._currentCount = 0;
         };
@@ -92,7 +87,7 @@ var egret;
          * 如果计时器尚未运行，则启动计时器。
          * @method egret.Timer#start
          */
-        Timer.prototype.start = function () {
+        __egretProto__.start = function () {
             if (this._running)
                 return;
             this.lastTime = egret.getTimer();
@@ -103,13 +98,13 @@ var egret;
          * 停止计时器。如果在调用 stop() 后调用 start()，则将继续运行计时器实例，运行次数为剩余的 重复次数（由 repeatCount 属性设置）。
          * @method egret.Timer#stop
          */
-        Timer.prototype.stop = function () {
+        __egretProto__.stop = function () {
             if (!this._running)
                 return;
             egret.Ticker.getInstance().unregister(this.onEnterFrame, this);
             this._running = false;
         };
-        Timer.prototype.onEnterFrame = function (frameTime) {
+        __egretProto__.onEnterFrame = function (frameTime) {
             var now = egret.getTimer();
             var passTime = now - this.lastTime;
             if (passTime > this.delay) {

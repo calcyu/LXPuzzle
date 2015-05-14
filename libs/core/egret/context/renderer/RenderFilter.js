@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -44,6 +38,7 @@ var egret;
             this._originalData = {};
             this._drawAreaList = [];
         }
+        var __egretProto__ = RenderFilter.prototype;
         /**
          * @method egret.egret.getInstance
          * @returns {RenderFilter}
@@ -58,13 +53,13 @@ var egret;
          * @method egret.egret#addDrawArea
          * @param area {egret.Rectangle}
          */
-        RenderFilter.prototype.addDrawArea = function (area) {
+        __egretProto__.addDrawArea = function (area) {
             this._drawAreaList.push(area);
         };
         /**
          * @method egret.egret#clearDrawArea
          */
-        RenderFilter.prototype.clearDrawArea = function () {
+        __egretProto__.clearDrawArea = function () {
             this._drawAreaList = [];
         };
         /**
@@ -81,7 +76,7 @@ var egret;
          * @param destWidth {number}
          * @param destHeight {number}
          */
-        RenderFilter.prototype.drawImage = function (renderContext, data, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
+        __egretProto__.drawImage = function (renderContext, data, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
             if (repeat === void 0) { repeat = undefined; }
             destX = destX || 0;
             destY = destY || 0;
@@ -162,7 +157,7 @@ var egret;
                 break;
             }
         };
-        RenderFilter.prototype.ignoreRender = function (data, rect, destX, destY) {
+        __egretProto__.ignoreRender = function (data, rect, destX, destY) {
             var bounds = data._worldBounds;
             var destX = destX * data._worldTransform.a;
             var destY = destY * data._worldTransform.d;
@@ -175,7 +170,7 @@ var egret;
          * @method egret.egret#getDrawAreaList
          * @returns {Rectangle}
          */
-        RenderFilter.prototype.getDrawAreaList = function () {
+        __egretProto__.getDrawAreaList = function () {
             var locDrawAreaList;
             //默认整个舞台都是重绘区域
             if (this._drawAreaList.length == 0) {
@@ -193,7 +188,7 @@ var egret;
         /**
          * 改变尺寸时使用
          */
-        RenderFilter.prototype.onResize = function () {
+        __egretProto__.onResize = function () {
             egret.MainContext.instance.stage.removeEventListener(egret.Event.RESIZE, this.onResize, this);
             this._defaultDrawAreaList = null;
         };

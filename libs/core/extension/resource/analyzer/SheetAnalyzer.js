@@ -15,12 +15,6 @@
  * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     /**
@@ -34,10 +28,11 @@ var RES;
             this.textureMap = {};
             this._dataFormat = egret.URLLoaderDataFormat.TEXT;
         }
+        var __egretProto__ = SheetAnalyzer.prototype;
         /**
          * @inheritDoc
          */
-        SheetAnalyzer.prototype.getRes = function (name) {
+        __egretProto__.getRes = function (name) {
             var res = this.fileDic[name];
             if (!res) {
                 res = this.textureMap[name];
@@ -55,7 +50,7 @@ var RES;
         /**
          * 一项加载结束
          */
-        SheetAnalyzer.prototype.onLoadFinish = function (event) {
+        __egretProto__.onLoadFinish = function (event) {
             var loader = (event.target);
             var data = this.resItemDic[loader.hashCode];
             delete this.resItemDic[loader.hashCode];
@@ -67,10 +62,12 @@ var RES;
                     resItem.loaded = false;
                     var imageUrl = this.analyzeConfig(resItem, loader.data);
                     if (imageUrl) {
+                        var tempUrl = resItem.url;
                         resItem.url = imageUrl;
                         this._dataFormat = egret.URLLoaderDataFormat.TEXTURE;
                         this.loadFile(resItem, compFunc, data.thisObject);
                         this._dataFormat = egret.URLLoaderDataFormat.TEXT;
+                        resItem.url = tempUrl;
                         return;
                     }
                 }
@@ -78,14 +75,13 @@ var RES;
                     this.analyzeBitmap(resItem, loader.data);
                 }
             }
-            resItem.url = resItem.data.url;
             this.recycler.push(loader);
             compFunc.call(data.thisObject, resItem);
         };
         /**
          * 解析并缓存加载成功的配置文件
          */
-        SheetAnalyzer.prototype.analyzeConfig = function (resItem, data) {
+        __egretProto__.analyzeConfig = function (resItem, data) {
             var name = resItem.name;
             var config;
             var imageUrl = "";
@@ -105,7 +101,7 @@ var RES;
         /**
          * 解析并缓存加载成功的位图数据
          */
-        SheetAnalyzer.prototype.analyzeBitmap = function (resItem, data) {
+        __egretProto__.analyzeBitmap = function (resItem, data) {
             var name = resItem.name;
             if (this.fileDic[name] || !data) {
                 return;
@@ -119,7 +115,7 @@ var RES;
         /**
          * 获取相对位置
          */
-        SheetAnalyzer.prototype.getRelativePath = function (url, file) {
+        __egretProto__.getRelativePath = function (url, file) {
             url = url.split("\\").join("/");
             var index = url.lastIndexOf("/");
             if (index != -1) {
@@ -130,7 +126,7 @@ var RES;
             }
             return url;
         };
-        SheetAnalyzer.prototype.parseSpriteSheet = function (texture, data, name) {
+        __egretProto__.parseSpriteSheet = function (texture, data, name) {
             var frames = data.frames;
             if (!frames) {
                 return null;
@@ -157,7 +153,7 @@ var RES;
         /**
          * @inheritDoc
          */
-        SheetAnalyzer.prototype.destroyRes = function (name) {
+        __egretProto__.destroyRes = function (name) {
             var sheet = this.fileDic[name];
             if (sheet) {
                 delete this.fileDic[name];

@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -52,6 +46,7 @@ var egret;
                 this._isSupportDOMParser = false;
             }
         }
+        var __egretProto__ = SAXParser.prototype;
         /**
          * @deprecated
          */
@@ -64,7 +59,7 @@ var egret;
         /**
          * @deprecated
          */
-        SAXParser.prototype.parserXML = function (textxml) {
+        __egretProto__.parserXML = function (textxml) {
             var i = 0;
             while (textxml.charAt(i) == "\n" || textxml.charAt(i) == "\t" || textxml.charAt(i) == "\r" || textxml.charAt(i) == " ") {
                 i++;

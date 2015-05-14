@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -77,18 +71,19 @@ var egret;
                 this.load(request);
             }
         }
+        var __egretProto__ = URLLoader.prototype;
         /**
          * 从指定的 URL 发送和加载数据。可以以文本、原始二进制数据或 URL 编码变量格式接收数据，这取决于为 dataFormat 属性所设置的值。
          * 请注意 dataFormat 属性的默认值为文本。如果想将数据发送至指定的 URL，则可以在 URLRequest 对象中设置 data 属性。
          * @method egret.URLLoader#load
          * @param request {URLRequest}  一个 URLRequest 对象，指定要下载的 URL。
          */
-        URLLoader.prototype.load = function (request) {
+        __egretProto__.load = function (request) {
             this._request = request;
             this.data = null;
             egret.MainContext.instance.netContext.proceed(this);
         };
-        URLLoader.prototype.__recycle = function () {
+        __egretProto__.__recycle = function () {
             this._request = null;
             this.data = null;
         };

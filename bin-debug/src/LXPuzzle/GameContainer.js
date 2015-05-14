@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Created by CalcYu on 2015/4/29.
  */
@@ -15,11 +9,12 @@ var LXPuzzle;
             _super.call(this);
             this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         }
-        GameContainer.prototype.onAddToStage = function (event) {
+        var __egretProto__ = GameContainer.prototype;
+        __egretProto__.onAddToStage = function (event) {
             this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
             this.initView();
         };
-        GameContainer.prototype.initView = function () {
+        __egretProto__.initView = function () {
             var sky = createBitmapByName("bg_jpg");
             this.addChild(sky);
             var stageW = this.stage.stageWidth;
@@ -32,12 +27,14 @@ var LXPuzzle;
             this.playPanel = new LXPuzzle.PlayPanel();
             this.playPanel.addEventListener("backMenu", this.backMenuHandler, this);
         };
-        GameContainer.prototype.startGameHandler = function (event) {
+        __egretProto__.startGameHandler = function (event) {
+            LXPuzzle.GameData.getInstance().stepCount = 0;
+            LXPuzzle.GameData.getInstance().startPlay();
             this.removeChild(this.menuPanel);
             this.addChild(this.playPanel);
             this.playPanel.initView();
         };
-        GameContainer.prototype.backMenuHandler = function (event) {
+        __egretProto__.backMenuHandler = function (event) {
             this.removeChild(this.playPanel);
             this.addChild(this.menuPanel);
         };

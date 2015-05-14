@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -66,6 +60,7 @@ var egret;
             this.tx = tx;
             this.ty = ty;
         }
+        var __egretProto__ = Matrix.prototype;
         /**
          * 前置矩阵
          * @method egret.Matrix#prepend
@@ -77,7 +72,7 @@ var egret;
          * @param ty {number} 沿 y 轴平移每个点的距离
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.prepend = function (a, b, c, d, tx, ty) {
+        __egretProto__.prepend = function (a, b, c, d, tx, ty) {
             var tx1 = this.tx;
             if (a != 1 || b != 0 || c != 0 || d != 1) {
                 var a1 = this.a;
@@ -102,7 +97,7 @@ var egret;
          * @param ty {number} 沿 y 轴平移每个点的距离
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.append = function (a, b, c, d, tx, ty) {
+        __egretProto__.append = function (a, b, c, d, tx, ty) {
             var a1 = this.a;
             var b1 = this.b;
             var c1 = this.c;
@@ -131,7 +126,7 @@ var egret;
          * @param regY {number} y值偏移
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.prependTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
+        __egretProto__.prependTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
             if (rotation % 360) {
                 var r = rotation; // * Matrix.DEG_TO_RAD;
                 var cos = egret.NumberUtils.cos(r);
@@ -172,7 +167,7 @@ var egret;
          * @param regY {number} y值偏移
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.appendTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
+        __egretProto__.appendTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
             if (rotation % 360) {
                 var r = rotation; // * Matrix.DEG_TO_RAD;
                 var cos = egret.NumberUtils.cos(r);
@@ -206,7 +201,7 @@ var egret;
          * @param angle {number} 角度
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.rotate = function (angle) {
+        __egretProto__.rotate = function (angle) {
             var cos = Math.cos(angle);
             var sin = Math.sin(angle);
             var a1 = this.a;
@@ -227,7 +222,7 @@ var egret;
          * @param skewY {number} y方向斜切
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.skew = function (skewX, skewY) {
+        __egretProto__.skew = function (skewX, skewY) {
             //            skewX = skewX * Matrix.DEG_TO_RAD;
             //            skewY = skewY * Matrix.DEG_TO_RAD;
             this.append(egret.NumberUtils.cos(skewY), egret.NumberUtils.sin(skewY), -egret.NumberUtils.sin(skewX), egret.NumberUtils.cos(skewX), 0, 0);
@@ -240,7 +235,7 @@ var egret;
          * @param y {number} 垂直缩放
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.scale = function (x, y) {
+        __egretProto__.scale = function (x, y) {
             this.a *= x;
             this.d *= y;
             this.c *= x;
@@ -256,7 +251,7 @@ var egret;
          * @param y {number} 沿 y 轴向下移动的量（以像素为单位）。
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.translate = function (x, y) {
+        __egretProto__.translate = function (x, y) {
             this.tx += x;
             this.ty += y;
             return this;
@@ -268,7 +263,7 @@ var egret;
          * @method egret.Matrix#identity
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.identity = function () {
+        __egretProto__.identity = function () {
             this.a = this.d = 1;
             this.b = this.c = this.tx = this.ty = 0;
             return this;
@@ -279,7 +274,7 @@ var egret;
          * @param matrix {egret.Matrix} 重置的目标矩阵
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.identityMatrix = function (matrix) {
+        __egretProto__.identityMatrix = function (matrix) {
             this.a = matrix.a;
             this.b = matrix.b;
             this.c = matrix.c;
@@ -294,7 +289,7 @@ var egret;
          * @method egret.Matrix#invert
          * @returns {egret.Matrix}
          */
-        Matrix.prototype.invert = function () {
+        __egretProto__.invert = function () {
             var a1 = this.a;
             var b1 = this.b;
             var c1 = this.c;
@@ -326,7 +321,7 @@ var egret;
             //        resultPoint.y = matrix.d * y + matrix.b * x - matrix.ty;
             return resultPoint;
         };
-        Matrix.prototype.toArray = function (transpose) {
+        __egretProto__.toArray = function (transpose) {
             if (!this.array) {
                 this.array = new Float32Array(9);
             }

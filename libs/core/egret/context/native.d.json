@@ -5,8 +5,8 @@
 		"interactive/NativeTouchContext.js",
 		"PromiseObject.js",
 		"net/NativeNetContext.js",
-		"net/NativeResourceLoader.js",
+		"display/NativeStageText.js",
 		"net/VersionController.js",
-		"display/NativeStageText.js"
+		"net/NativeResourceLoader.js"
 	]
 }

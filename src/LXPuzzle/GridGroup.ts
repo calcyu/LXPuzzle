@@ -110,6 +110,8 @@ module LXPuzzle {
         private moveCell(cell:LXPuzzle.GridCell, value:any):void {
             var tw = egret.Tween.get(cell);
             tw.to(value, 100);
+            LXPuzzle.GameData.getInstance().stepCount++;
+            this.check();
         }
 
         /**
@@ -123,6 +125,20 @@ module LXPuzzle {
             a.position = b.position;
             this._cells[b.position] = a;
             b.position = tp;
+        }
+
+        private check():void {
+            for (var i:number = 0; i < this._cells.length; i++) {
+                var c:LXPuzzle.GridCell = this._cells[i];
+                if (c.id == -1)
+                    continue;
+                if (c.id != i)
+                    break;
+            }
+            if (i == this._cells.length) {
+                this.touchChildren = false;
+                this.dispatchEvent(new egret.Event("success"));
+            }
         }
 
     }

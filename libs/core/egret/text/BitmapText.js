@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -61,7 +55,8 @@ var egret;
             this.cacheAsBitmap = true;
             this.needDraw = true;
         }
-        Object.defineProperty(BitmapText.prototype, "text", {
+        var __egretProto__ = BitmapText.prototype;
+        Object.defineProperty(__egretProto__, "text", {
             /**
              * 显示的文本内容
              * @member {string} egret.BitmapText#text
@@ -80,7 +75,7 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(BitmapText.prototype, "font", {
+        Object.defineProperty(__egretProto__, "font", {
             /**
              * BitmapFont对象，缓存了所有文本的位图纹理
              * @member {egret.BitmapFont} egret.BitmapText#font
@@ -98,11 +93,11 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        BitmapText.prototype._setSizeDirty = function () {
+        __egretProto__._setSizeDirty = function () {
             _super.prototype._setSizeDirty.call(this);
             this.textLinesChange = true;
         };
-        BitmapText.prototype._render = function (renderContext) {
+        __egretProto__._render = function (renderContext) {
             var textLines = this._getTextLines();
             var length = textLines.length;
             if (length == 0) {
@@ -144,14 +139,14 @@ var egret;
             }
             this._texture_to_render = null;
         };
-        BitmapText.prototype._measureBounds = function () {
+        __egretProto__._measureBounds = function () {
             var lines = this._getTextLines();
             if (lines.length == 0) {
                 return egret.Rectangle.identity.initialize(0, 0, 0, 0);
             }
             return egret.Rectangle.identity.initialize(this._textOffsetX, this._textOffsetY, this._textWidth - this._textOffsetX, this._textHeight - this._textOffsetY);
         };
-        BitmapText.prototype._getTextLines = function () {
+        __egretProto__._getTextLines = function () {
             if (!this.textLinesChange) {
                 return this._textLines;
             }

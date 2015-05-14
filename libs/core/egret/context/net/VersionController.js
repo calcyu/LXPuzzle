@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Copyright (c) 2014,Egret-Labs.org
  * All rights reserved.
@@ -68,28 +62,90 @@ var egret;
             this._load = null;
             this._call = null;
         }
+        var __egretProto__ = VersionController.prototype;
         //获取当前版本号
-        VersionController.prototype.fetchVersion = function () {
+        __egretProto__.fetchVersion = function () {
             this._load = new egret.NativeResourceLoader();
             this._load.addEventListener(egret.IOErrorEvent.IO_ERROR, this.loadError, this);
             this._load.addEventListener(egret.Event.COMPLETE, this.fileLoadComplete, this);
             this.initLocalVersionData();
         };
         //初始化本地数据配置
-        VersionController.prototype.initLocalVersionData = function () {
-            //初始化localVersonData
-            this.localVersionData = this.getLocalData(this.localVersionDataPath);
-            if (this.localVersionData == null) {
-                this.localVersionData = this.getLocalData(this.baseVersionDataPath);
-                if (this.localVersionData == null) {
-                    this.localVersionData = {};
+        __egretProto__.initLocalVersionData = function () {
+            var self = this;
+            //根据appVersion来判断是否是替换过apk或者刚装的apk////////////////////
+            var versionPath = "appVersion.manifest";
+            //获取安装包内版本号
+            var appVersionJson = self.getData(versionPath, true);
+            if (appVersionJson) {
+                //安装包内有预存文件
+                //获取存储空间内版本号信息
+                if (appVersionJson["debug"] == 1) {
+                    self.baseVersionData = null;
+                    //需要清理上个版本与当前版本不同的素材
+                    var lastLocalVersionData = self.getData(self.localVersionDataPath, false);
+                    if (lastLocalVersionData) {
+                        for (var key in lastLocalVersionData) {
+                            self.deleteFile(key);
+                        }
+                    }
+                    self.deleteFile(self.localVersionDataPath);
+                    self.deleteFile(self.localVersionCodePath);
+                    self.loadOver();
+                    return;
                 }
-                egret_native.saveRecord(this.localVersionDataPath, JSON.stringify(this.localVersionData));
+                else {
+                    var sdVersionJson = self.getData(versionPath, false);
+                    if (sdVersionJson == null || sdVersionJson["version"] != appVersionJson["version"]) {
+                        self.localVersionData = self.getData(self.localVersionDataPath, true);
+                        if (self.localVersionData == null) {
+                            self.localVersionData = {};
+                        }
+                        //删除版本号对比
+                        self.deleteFile(self.localVersionCodePath);
+                        self.save(versionPath, JSON.stringify(appVersionJson));
+                        //需要清理上个版本与当前版本不同的素材
+                        var lastLocalVersionData = self.getData(self.localVersionCodePath, false);
+                        if (lastLocalVersionData) {
+                            for (var key in lastLocalVersionData) {
+                                if (lastLocalVersionData[key] != self.localVersionData[key]) {
+                                    self.deleteFile(key);
+                                }
+                            }
+                        }
+                        else {
+                            lastLocalVersionData = {};
+                        }
+                        for (var key in self.localVersionData) {
+                            if (lastLocalVersionData[key] != self.localVersionData[key]) {
+                                self.deleteFile(key);
+                            }
+                        }
+                        self.save(self.localVersionDataPath, JSON.stringify(self.localVersionData));
+                        self.loadCodeVersion();
+                        return;
+                    }
+                }
             }
-            this.loadCodeVersion();
+            /////////////////////////////////////////////////////////
+            //初始化localVersonData
+            self.localVersionData = self.getLocalData(self.localVersionDataPath);
+            if (self.localVersionData == null) {
+                self.localVersionData = self.getLocalData(self.baseVersionDataPath);
+                if (self.localVersionData == null) {
+                    self.localVersionData = {};
+                }
+                self.save(self.localVersionDataPath, JSON.stringify(self.localVersionData));
+            }
+            self.loadCodeVersion();
+        };
+        __egretProto__.deleteFile = function (file) {
+            if (egret_native.deleteUpdateFile) {
+                egret_native.deleteUpdateFile(file);
+            }
         };
         //初始化本地版本控制号数据
-        VersionController.prototype.loadCodeVersion = function () {
+        __egretProto__.loadCodeVersion = function () {
             var localCode = 1;
             this.newCode = 1;
             var localVersionCode = this.getLocalData(this.localVersionCodePath);
@@ -102,47 +158,89 @@ var egret;
             }
             this.loadBaseVersion(localCode != this.newCode);
         };
-        VersionController.prototype.loadBaseVersion = function (neesUpdate) {
+        __egretProto__.loadBaseVersion = function (neesUpdate) {
             this.baseVersionData = this.getLocalData(this.baseVersionDataPath);
             this.changeVersionData = this.getLocalData(this.changeVersionDataPath);
             //加载baseVersionData
             var self = this;
-            if (this.baseVersionData == null || neesUpdate) {
-                this.loadFile(this.baseVersionDataPath, function () {
+            if (self.baseVersionData == null || neesUpdate) {
+                self.loadFile(self.baseVersionDataPath, function () {
                     self.baseVersionData = self.getLocalData(self.baseVersionDataPath);
                     self.loadBaseOver();
                 });
             }
             else {
-                this.loadBaseOver();
+                self.loadBaseOver();
             }
         };
-        VersionController.prototype.loadBaseOver = function () {
+        __egretProto__.loadBaseOver = function () {
             //保存localCode文件
-            egret_native.saveRecord(this.localVersionCodePath, JSON.stringify({ "code": this.newCode }));
+            this.save(this.localVersionCodePath, JSON.stringify({ "code": this.newCode }));
             this.loadOver();
         };
-        VersionController.prototype.loadFile = function (file, call) {
+        __egretProto__.loadFile = function (file, call) {
             if (call === void 0) { call = null; }
             this._call = call;
             this._load.load(file, 1000);
         };
-        VersionController.prototype.fileLoadComplete = function (e) {
+        __egretProto__.fileLoadComplete = function (e) {
             if (this._call) {
                 this._call();
             }
         };
-        VersionController.prototype.loadError = function (e) {
+        __egretProto__.loadError = function (e) {
             this._load.removeEventListener(egret.IOErrorEvent.IO_ERROR, this.loadError, this);
             this._load.removeEventListener(egret.Event.COMPLETE, this.fileLoadComplete, this);
             this.dispatchEvent(e);
         };
-        VersionController.prototype.loadOver = function () {
+        __egretProto__.loadOver = function () {
             this._load.removeEventListener(egret.IOErrorEvent.IO_ERROR, this.loadError, this);
             this._load.removeEventListener(egret.Event.COMPLETE, this.fileLoadComplete, this);
             this.dispatchEvent(new egret.Event(egret.Event.COMPLETE));
         };
-        VersionController.prototype.getLocalData = function (filePath) {
+        __egretProto__.save = function (path, value) {
+            if (egret_native.writeFileSync) {
+                egret_native.writeFileSync(path, value);
+            }
+            else if (egret_native.saveRecord) {
+                egret_native.saveRecord(path, value);
+            }
+        };
+        __egretProto__.getData = function (filePath, isApp) {
+            if (egret_native.readUpdateFileSync && egret_native.readResourceFileSync) {
+                if (isApp) {
+                    var str = egret_native.readResourceFileSync(filePath);
+                    return str != null ? JSON.parse(str) : null;
+                }
+                else {
+                    var str = egret_native.readUpdateFileSync(filePath);
+                    return str != null ? JSON.parse(str) : null;
+                }
+            }
+            else {
+                return this.getLocalDataByOld(filePath);
+            }
+        };
+        __egretProto__.getLocalData = function (filePath) {
+            if (egret_native.readUpdateFileSync && egret_native.readResourceFileSync) {
+                //先取更新目录
+                var content = egret_native.readUpdateFileSync(filePath);
+                if (content != null) {
+                    return JSON.parse(content);
+                }
+                //再取资源目录
+                content = egret_native.readResourceFileSync(filePath);
+                if (content != null) {
+                    return JSON.parse(content);
+                }
+                return null;
+            }
+            else {
+                return this.getLocalDataByOld(filePath);
+            }
+        };
+        //todo 旧方式
+        __egretProto__.getLocalDataByOld = function (filePath) {
             var data = null;
             if (egret_native.isRecordExists(filePath)) {
                 var str = egret_native.loadRecord(filePath);
@@ -158,7 +256,7 @@ var egret;
          * 获取所有有变化的文件
          * @returns {Array<any>}
          */
-        VersionController.prototype.getChangeList = function () {
+        __egretProto__.getChangeList = function () {
             if (!this.baseVersionData) {
                 return [];
             }
@@ -176,20 +274,20 @@ var egret;
                     changeDatas[key] = { "url": key, "size": this.baseVersionData[key]["s"] };
                 }
             }
-            for (var key in this.localVersionData) {
-                if (changeDatas[key] == null) {
-                    if (!egret_native.isRecordExists(key) && !egret_native.isFileExists(key)) {
-                        changeDatas[key] = { "url": key, "size": this.localVersionData[key]["s"] };
-                    }
-                }
-            }
+            //for (var key in this.localVersionData) {
+            //    if (changeDatas[key] == null) {//不在将要下载的下载列表
+            //        if (!egret_native.isRecordExists(key) && !egret_native.isFileExists(key)) {//没有下载过这个文件
+            //            changeDatas[key] = {"url": key, "size": this.localVersionData[key]["s"]};
+            //        }
+            //    }
+            //}
             var list = [];
             for (var key in changeDatas) {
                 list.push(changeDatas[key]);
             }
             return list;
         };
-        VersionController.prototype.compareVersion = function (oldVersion, newVersion, url) {
+        __egretProto__.compareVersion = function (oldVersion, newVersion, url) {
             if (oldVersion[url] == null || newVersion[url] == null) {
                 return false;
             }
@@ -198,7 +296,7 @@ var egret;
         /**
          * 检查文件是否是最新版本
          */
-        VersionController.prototype.checkIsNewVersion = function (url) {
+        __egretProto__.checkIsNewVersion = function (url) {
             if (!this.baseVersionData) {
                 return true;
             }
@@ -213,7 +311,7 @@ var egret;
         /**
          * 保存本地版本信息文件
          */
-        VersionController.prototype.saveVersion = function (url) {
+        __egretProto__.saveVersion = function (url) {
             if (!this.baseVersionData) {
                 return;
             }
@@ -231,7 +329,7 @@ var egret;
                 }
             }
             if (change) {
-                egret_native.saveRecord(this.localVersionDataPath, JSON.stringify(this.localVersionData));
+                this.save(this.localVersionDataPath, JSON.stringify(this.localVersionData));
             }
         };
         return VersionController;

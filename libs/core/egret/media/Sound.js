@@ -49,12 +49,13 @@ var egret;
              */
             this.type = Sound.EFFECT;
         }
+        var __egretProto__ = Sound.prototype;
         /**
          * 播放声音
          * @method egret.Sound#play
          * @param loop {boolean} 是否循环播放，默认为false
          */
-        Sound.prototype.play = function (loop) {
+        __egretProto__.play = function (loop) {
             if (loop === void 0) { loop = false; }
             var sound = this.audio;
             if (!sound) {
@@ -70,7 +71,7 @@ var egret;
          * 暂停声音
          * @method egret.Sound#pause
          */
-        Sound.prototype.pause = function () {
+        __egretProto__.pause = function () {
             var sound = this.audio;
             if (!sound) {
                 return;
@@ -81,7 +82,7 @@ var egret;
          * 重新加载声音
          * @method egret.Sound#load
          */
-        Sound.prototype.load = function () {
+        __egretProto__.load = function () {
             var sound = this.audio;
             if (!sound) {
                 return;
@@ -93,7 +94,7 @@ var egret;
          * @param type 事件类型
          * @param listener 监听函数
          */
-        Sound.prototype.addEventListener = function (type, listener) {
+        __egretProto__.addEventListener = function (type, listener) {
             var sound = this.audio;
             if (!sound) {
                 return;
@@ -105,7 +106,7 @@ var egret;
          * @param type 事件类型
          * @param listener 监听函数
          */
-        Sound.prototype.removeEventListener = function (type, listener) {
+        __egretProto__.removeEventListener = function (type, listener) {
             var sound = this.audio;
             if (!sound) {
                 return;
@@ -116,7 +117,7 @@ var egret;
          * 设置音量
          * @param value 值需大于0 小于等于 1
          */
-        Sound.prototype.setVolume = function (value) {
+        __egretProto__.setVolume = function (value) {
             var sound = this.audio;
             if (!sound) {
                 return;
@@ -127,13 +128,13 @@ var egret;
          * 获取当前音量值
          * @returns number
          */
-        Sound.prototype.getVolume = function () {
+        __egretProto__.getVolume = function () {
             return this.audio ? this.audio.volume : 0;
         };
-        Sound.prototype.preload = function (type) {
+        __egretProto__.preload = function (type) {
             this.type = type;
         };
-        Sound.prototype._setAudio = function (value) {
+        __egretProto__._setAudio = function (value) {
             this.audio = value;
         };
         /**

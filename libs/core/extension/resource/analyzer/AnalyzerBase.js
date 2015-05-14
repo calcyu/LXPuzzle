@@ -15,12 +15,6 @@
  * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     /**
@@ -33,13 +27,14 @@ var RES;
             this.resourceConfig = null;
             this.resourceConfig = (RES["configInstance"]);
         }
+        var __egretProto__ = AnalyzerBase.prototype;
         /**
          * 添加一个二级键名到配置列表。
          * @method RES.ResourceConfig#addSubkey
          * @param subkey {string} 要添加的二级键名
          * @param name {string} 二级键名所属的资源name属性
          */
-        AnalyzerBase.prototype.addSubkey = function (subkey, name) {
+        __egretProto__.addSubkey = function (subkey, name) {
             this.resourceConfig.addSubkey(subkey, name);
         };
         /**
@@ -48,19 +43,19 @@ var RES;
          * @param compFunc 加载完成回调函数,示例:compFunc(resItem:ResourceItem):void;
          * @param thisObject 加载完成回调函数的this引用
          */
-        AnalyzerBase.prototype.loadFile = function (resItem, compFunc, thisObject) {
+        __egretProto__.loadFile = function (resItem, compFunc, thisObject) {
         };
         /**
          * 同步方式获取解析完成的数据
          * @param name 对应配置文件里的name属性。
          */
-        AnalyzerBase.prototype.getRes = function (name) {
+        __egretProto__.getRes = function (name) {
         };
         /**
          * 销毁某个资源文件的二进制数据,返回是否删除成功。
          * @param name 配置文件中加载项的name属性
          */
-        AnalyzerBase.prototype.destroyRes = function (name) {
+        __egretProto__.destroyRes = function (name) {
             return false;
         };
         /**

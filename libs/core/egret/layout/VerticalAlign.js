@@ -34,6 +34,7 @@ var egret;
     var VerticalAlign = (function () {
         function VerticalAlign() {
         }
+        var __egretProto__ = VerticalAlign.prototype;
         /**
          * 顶对齐
          * @constant egret.VerticalAlign.TOP

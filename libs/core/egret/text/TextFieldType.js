@@ -34,6 +34,7 @@ var egret;
     var TextFieldType = (function () {
         function TextFieldType() {
         }
+        var __egretProto__ = TextFieldType.prototype;
         /**
          * 用于指定动态文本
          * @constant {string} egret.TextFieldType.DYNAMIC

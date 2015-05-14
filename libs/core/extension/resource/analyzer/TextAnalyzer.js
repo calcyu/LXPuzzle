@@ -15,12 +15,6 @@
  * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var RES;
 (function (RES) {
     var TextAnalyzer = (function (_super) {
@@ -29,6 +23,7 @@ var RES;
             _super.call(this);
             this._dataFormat = egret.URLLoaderDataFormat.TEXT;
         }
+        var __egretProto__ = TextAnalyzer.prototype;
         return TextAnalyzer;
     })(RES.BinAnalyzer);
     RES.TextAnalyzer = TextAnalyzer;

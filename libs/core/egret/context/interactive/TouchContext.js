@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -49,13 +43,14 @@ var egret;
             this.lastTouchX = -1;
             this.lastTouchY = -1;
         }
+        var __egretProto__ = TouchContext.prototype;
         /**
          * 启动触摸检测
          * @method egret.TouchContext#run
          */
-        TouchContext.prototype.run = function () {
+        __egretProto__.run = function () {
         };
-        TouchContext.prototype.getTouchData = function (identifier, x, y) {
+        __egretProto__.getTouchData = function (identifier, x, y) {
             var obj = this._currentTouchTarget[identifier];
             if (obj == null) {
                 obj = {};
@@ -66,11 +61,11 @@ var egret;
             obj.identifier = identifier;
             return obj;
         };
-        TouchContext.prototype.dispatchEvent = function (type, data) {
+        __egretProto__.dispatchEvent = function (type, data) {
             var touchDown = (this.touchDownTarget[data.identifier] == true);
             egret.TouchEvent.dispatchTouchEvent(data.target, type, data.identifier, data.stageX, data.stageY, false, false, false, touchDown);
         };
-        TouchContext.prototype.onTouchBegan = function (x, y, identifier) {
+        __egretProto__.onTouchBegan = function (x, y, identifier) {
             if (this.touchingIdentifiers.length == this.maxTouches) {
                 return;
             }
@@ -85,7 +80,7 @@ var egret;
             }
             this.touchingIdentifiers.push(identifier);
         };
-        TouchContext.prototype.onTouchMove = function (x, y, identifier) {
+        __egretProto__.onTouchMove = function (x, y, identifier) {
             var index = this.touchingIdentifiers.indexOf(identifier);
             if (index == -1) {
                 return;
@@ -103,7 +98,7 @@ var egret;
                 this.dispatchEvent(egret.TouchEvent.TOUCH_MOVE, obj);
             }
         };
-        TouchContext.prototype.onTouchEnd = function (x, y, identifier) {
+        __egretProto__.onTouchEnd = function (x, y, identifier) {
             var index = this.touchingIdentifiers.indexOf(identifier);
             if (index == -1) {
                 return;

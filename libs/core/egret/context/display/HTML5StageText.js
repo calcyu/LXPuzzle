@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -41,262 +35,301 @@ var egret;
         __extends(HTML5StageText, _super);
         function HTML5StageText() {
             _super.call(this);
-            this.div = null;
+            this._isNeedShow = false;
             this.inputElement = null;
-            this._hasListeners = false;
-            this._inputType = "";
-            this._isShow = false;
+            this.inputDiv = null;
+            this._gscaleX = 0;
+            this._gscaleY = 0;
+            this._isNeesHide = false;
             this.textValue = "";
-            this._width = 0;
-            this._height = 0;
             this._styleInfoes = {};
+            HTMLInput.getInstance();
+        }
+        var __egretProto__ = HTML5StageText.prototype;
+        __egretProto__._initElement = function (x, y, cX, cY) {
             var scaleX = egret.StageDelegate.getInstance().getScaleX();
             var scaleY = egret.StageDelegate.getInstance().getScaleY();
-            var div = egret.Browser.getInstance().$new("div");
-            div.position.x = 0;
-            div.position.y = 0;
-            div.scale.x = scaleX;
-            div.scale.y = scaleY;
-            div.transforms();
-            div.style[HTML5StageText.getTrans("transformOrigin")] = "0% 0% 0px";
-            this.div = div;
-            var stage = egret.MainContext.instance.stage;
-            var stageWidth = stage.stageWidth;
-            var stageHeight = stage.stageHeight;
-            var shape = new egret.Shape();
-            //            shape.graphics.beginFill(0x000000, .3);
-            //            shape.graphics.drawRect(0, 0, stageWidth, stageHeight);
-            //            shape.graphics.endFill();
-            shape.width = stageWidth;
-            shape.height = stageHeight;
-            shape.touchEnabled = true;
-            this._shape = shape;
-            this.getStageDelegateDiv().appendChild(this.div);
-        }
-        /**
-         * 获取当前浏览器类型
-         * @type {string}
-         */
-        HTML5StageText.getTrans = function (type) {
-            if (HTML5StageText.header == "") {
-                HTML5StageText.header = HTML5StageText.getHeader();
-            }
-            return HTML5StageText.header + type.substring(1, type.length);
+            this.inputDiv.style.left = x * scaleX + "px";
+            this.inputDiv.style.top = y * scaleY + "px";
+            this._gscaleX = scaleX * cX;
+            this._gscaleY = scaleY * cY;
         };
-        /**
-         * 获取当前浏览器的类型
-         * @returns {string}
-         */
-        HTML5StageText.getHeader = function () {
-            var tempStyle = document.createElement('div').style;
-            var transArr = ["t", "webkitT", "msT", "MozT", "OT"];
-            for (var i = 0; i < transArr.length; i++) {
-                var transform = transArr[i] + 'ransform';
-                if (transform in tempStyle)
-                    return transArr[i];
-            }
-            return transArr[0];
-        };
-        HTML5StageText.prototype.getStageDelegateDiv = function () {
-            var stageDelegateDiv = egret.Browser.getInstance().$("#StageDelegateDiv");
-            if (!stageDelegateDiv) {
-                stageDelegateDiv = egret.Browser.getInstance().$new("div");
-                stageDelegateDiv.id = "StageDelegateDiv";
-                //                stageDelegateDiv.style.position = "absolute";
-                var container = document.getElementById(egret.StageDelegate.canvas_div_name);
-                container.appendChild(stageDelegateDiv);
-                stageDelegateDiv.transforms();
-            }
-            return stageDelegateDiv;
-        };
-        HTML5StageText.prototype._setMultiline = function (value) {
-            _super.prototype._setMultiline.call(this, value);
-            this.createInput();
-        };
-        HTML5StageText.prototype.callHandler = function (e) {
-            e.stopPropagation();
-        };
-        HTML5StageText.prototype._add = function () {
-            if (this.div && this.div.parentNode == null) {
-                this.getStageDelegateDiv().appendChild(this.div);
-            }
-        };
-        HTML5StageText.prototype._remove = function () {
-            if (this._shape && this._shape.parent) {
-                this._shape.parent.removeChild(this._shape);
-            }
-            if (this.div && this.div.parentNode) {
-                this.div.parentNode.removeChild(this.div);
-            }
-        };
-        HTML5StageText.prototype._addListeners = function () {
-            if (this.inputElement && !this._hasListeners) {
-                this._hasListeners = true;
-                this.inputElement.addEventListener("mousedown", this.callHandler);
-                this.inputElement.addEventListener("touchstart", this.callHandler);
-                this.inputElement.addEventListener("MSPointerDown", this.callHandler);
-            }
-        };
-        HTML5StageText.prototype._removeListeners = function () {
-            if (this.inputElement && this._hasListeners) {
-                this._hasListeners = false;
-                this.inputElement.removeEventListener("mousedown", this.callHandler);
-                this.inputElement.removeEventListener("touchstart", this.callHandler);
-                this.inputElement.removeEventListener("MSPointerDown", this.callHandler);
-            }
-        };
-        HTML5StageText.prototype.createInput = function () {
-            var type = this._multiline ? "textarea" : "input";
-            if (this._inputType == type) {
-                return;
-            }
-            this._inputType = type;
-            if (this.inputElement != null) {
-                this._removeListeners();
-                this.div.removeChild(this.inputElement);
-            }
-            if (this._multiline) {
-                var inputElement = document.createElement("textarea");
-                inputElement.style["resize"] = "none";
+        __egretProto__._show = function (multiline, size, width, height) {
+            this._multiline = multiline;
+            if (!HTMLInput.getInstance().isCurrentStageText(this)) {
+                this.inputElement = HTMLInput.getInstance().getInputElement(this);
+                this.inputDiv = HTMLInput.getInstance()._inputDIV;
             }
             else {
-                inputElement = document.createElement("input");
+                this.inputElement.onblur = null;
             }
-            this._styleInfoes = {};
-            inputElement.type = "text";
-            this.inputElement = inputElement;
-            this.inputElement.value = "";
-            this.div.appendChild(inputElement);
-            this._addListeners();
-            this.setElementStyle("width", 0 + "px");
-            //默认值
-            this.setElementStyle("border", "none");
-            this.setElementStyle("margin", "0");
-            this.setElementStyle("padding", "0");
-            this.setElementStyle("outline", "medium");
-            this.setElementStyle("verticalAlign", "top");
-            this.setElementStyle("wordBreak", "break-all");
-            this.setElementStyle("overflow", "hidden");
+            HTMLInput.getInstance()._needShow = true;
+            //标记当前文本被选中
+            this._isNeedShow = true;
         };
-        HTML5StageText.prototype._open = function (x, y, width, height) {
-            if (width === void 0) { width = 160; }
-            if (height === void 0) { height = 21; }
+        __egretProto__.onBlurHandler = function () {
+            HTMLInput.getInstance().clearInputElement();
+            window.scrollTo(0, 0);
         };
-        HTML5StageText.prototype._setScale = function (x, y) {
-            _super.prototype._setScale.call(this, x, y);
-            var scaleX = egret.StageDelegate.getInstance().getScaleX();
-            var scaleY = egret.StageDelegate.getInstance().getScaleY();
-            this.div.scale.x = scaleX * x;
-            this.div.scale.y = scaleY * y;
-            this.div.transforms();
-        };
-        HTML5StageText.prototype.changePosition = function (x, y) {
-            //            if (this._isShow) {
-            var scaleX = egret.StageDelegate.getInstance().getScaleX();
-            var scaleY = egret.StageDelegate.getInstance().getScaleY();
-            this.div.position.x = x * scaleX;
-            this.div.position.y = y * scaleY;
-            this.div.transforms();
-            //            }
-        };
-        HTML5StageText.prototype.setStyles = function () {
-            //修改属性
-            this.setElementStyle("fontStyle", this._italic ? "italic" : "normal");
-            this.setElementStyle("fontWeight", this._bold ? "bold" : "normal");
-            this.setElementStyle("textAlign", this._textAlign);
-            this.setElementStyle("fontSize", this._size + "px");
-            this.setElementStyle("color", "#000000");
-            this.setElementStyle("width", this._width + "px");
-            //            if (this._multiline) {
-            this.setElementStyle("height", this._height + "px");
-            //            }
-            //            this.setElementStyle("border", "1px solid red");
-            this.setElementStyle("display", "block");
-        };
-        HTML5StageText.prototype._show = function () {
-            egret.MainContext.instance.stage._changeSizeDispatchFlag = false;
-            if (this._maxChars > 0) {
-                this.inputElement.setAttribute("maxlength", this._maxChars);
+        __egretProto__.executeShow = function () {
+            var self = this;
+            //打开
+            this.inputElement.value = this._getText();
+            if (this.inputElement.onblur == null) {
+                this.inputElement.onblur = this.onBlurHandler;
+            }
+            this._resetStageText();
+            if (this._textfield._properties._maxChars > 0) {
+                this.inputElement.setAttribute("maxlength", this._textfield._properties._maxChars);
             }
             else {
                 this.inputElement.removeAttribute("maxlength");
             }
-            this._isShow = true;
-            //打开
-            var txt = this._getText();
-            this.inputElement.value = txt;
-            var self = this;
-            this.inputElement.oninput = function () {
-                self.textValue = self.inputElement.value;
-                self.dispatchEvent(new egret.Event("updateText"));
-            };
-            this.setStyles();
+            this.inputElement.selectionStart = this.inputElement.value.length;
+            this.inputElement.selectionEnd = this.inputElement.value.length;
             this.inputElement.focus();
-            //            if (this._multiline) {
-            this.inputElement.selectionStart = txt.length;
-            this.inputElement.selectionEnd = txt.length;
-            //            }
-            if (this._shape && this._shape.parent == null) {
-                egret.MainContext.instance.stage.addChild(this._shape);
+        };
+        __egretProto__._hide = function () {
+            //标记当前点击其他地方关闭
+            this._isNeesHide = true;
+            if (egret.Browser.getInstance().getUserAgent().indexOf("ios") >= 0) {
+                HTMLInput.getInstance().disconnectStageText(this);
             }
         };
-        HTML5StageText.prototype._hide = function () {
-            egret.MainContext.instance.stage._changeSizeDispatchFlag = true;
-            if (this.inputElement == null) {
-                return;
-            }
-            this._isShow = false;
-            this.inputElement.oninput = function () {
-            };
-            this.setElementStyle("border", "none");
-            this.setElementStyle("display", "none");
-            //关闭
-            this.inputElement.value = "";
-            this.setElementStyle("width", 0 + "px");
-            window.scrollTo(0, 0);
-            var self = this;
-            egret.setTimeout(function () {
-                self.inputElement.blur();
-                window.scrollTo(0, 0);
-            }, this, 50);
-            if (this._shape && this._shape.parent) {
-                this._shape.parent.removeChild(this._shape);
-            }
-        };
-        HTML5StageText.prototype._getText = function () {
+        __egretProto__._getText = function () {
             if (!this.textValue) {
                 this.textValue = "";
             }
             return this.textValue;
         };
-        HTML5StageText.prototype._setText = function (value) {
+        __egretProto__._setText = function (value) {
             this.textValue = value;
             this.resetText();
         };
-        HTML5StageText.prototype.resetText = function () {
+        __egretProto__.resetText = function () {
             if (this.inputElement) {
                 this.inputElement.value = this.textValue;
             }
         };
-        HTML5StageText.prototype._setWidth = function (value) {
-            this._width = value;
+        __egretProto__._onInput = function () {
+            var self = this;
+            self.textValue = self.inputElement.value;
+            egret.Event.dispatchEvent(self, "updateText", false);
         };
-        HTML5StageText.prototype._setHeight = function (value) {
-            this._height = value;
+        __egretProto__._onClickHandler = function (e) {
+            if (this._isNeedShow) {
+                e.stopImmediatePropagation();
+                //e.preventDefault();
+                this._isNeedShow = false;
+                this.executeShow();
+                this.dispatchEvent(new egret.Event("focus"));
+            }
         };
-        HTML5StageText.prototype.setElementStyle = function (style, value) {
+        __egretProto__._onDisconnect = function () {
+            this.inputElement = null;
+            this.dispatchEvent(new egret.Event("blur"));
+        };
+        __egretProto__.setElementStyle = function (style, value) {
             if (this.inputElement) {
                 if (this._styleInfoes[style] != value) {
                     this.inputElement.style[style] = value;
-                    this._styleInfoes[style] = value;
                 }
             }
         };
-        HTML5StageText.header = "";
+        __egretProto__._removeInput = function () {
+            if (this.inputElement) {
+                HTMLInput.getInstance().disconnectStageText(this);
+            }
+        };
+        /**
+         * 修改位置
+         * @private
+         */
+        __egretProto__._resetStageText = function () {
+            if (this.inputElement) {
+                var textfield = this._textfield;
+                var propertie = textfield._properties;
+                this.setElementStyle("fontFamily", propertie._fontFamily);
+                this.setElementStyle("fontStyle", propertie._italic ? "italic" : "normal");
+                this.setElementStyle("fontWeight", propertie._bold ? "bold" : "normal");
+                this.setElementStyle("textAlign", propertie._textAlign);
+                this.setElementStyle("fontSize", propertie._size * this._gscaleY + "px");
+                this.setElementStyle("lineHeight", propertie._size * this._gscaleY + "px");
+                this.setElementStyle("color", propertie._textColorString);
+                this.setElementStyle("width", textfield._getSize(egret.Rectangle.identity).width * this._gscaleX + "px");
+                this.setElementStyle("height", textfield._getSize(egret.Rectangle.identity).height * this._gscaleY + "px");
+                this.setElementStyle("verticalAlign", propertie._verticalAlign);
+            }
+        };
         return HTML5StageText;
     })(egret.StageText);
     egret.HTML5StageText = HTML5StageText;
     HTML5StageText.prototype.__class__ = "egret.HTML5StageText";
+    var HTMLInput = (function () {
+        function HTMLInput() {
+            this._needShow = false;
+        }
+        var __egretProto__ = HTMLInput.prototype;
+        __egretProto__.isInputOn = function () {
+            return this._stageText != null;
+        };
+        __egretProto__.isCurrentStageText = function (stageText) {
+            return this._stageText == stageText;
+        };
+        __egretProto__.initValue = function (dom) {
+            dom.style.position = "absolute";
+            dom.style.left = "0px";
+            dom.style.top = "0px";
+            dom.style.border = "none";
+            dom.style.padding = "0";
+        };
+        __egretProto__.initStageDelegateDiv = function () {
+            var self = this;
+            var stageDelegateDiv = egret.Browser.getInstance().$("#StageDelegateDiv");
+            if (!stageDelegateDiv) {
+                stageDelegateDiv = egret.Browser.getInstance().$new("div");
+                stageDelegateDiv.id = "StageDelegateDiv";
+                var container = document.getElementById(egret.StageDelegate.egret_root_div);
+                container.appendChild(stageDelegateDiv);
+                self.initValue(stageDelegateDiv);
+                stageDelegateDiv.style.width = "0px";
+                stageDelegateDiv.style.height = "0px";
+                self._inputDIV = egret.Browser.getInstance().$new("div");
+                self.initValue(self._inputDIV);
+                self._inputDIV.style.width = "0px";
+                self._inputDIV.style.height = "0px";
+                self._inputDIV.style.left = 0 + "px";
+                self._inputDIV.style.top = "-100px";
+                self._inputDIV.style[egret.Browser.getInstance().getTrans("transformOrigin")] = "0% 0% 0px";
+                stageDelegateDiv.appendChild(self._inputDIV);
+                var canvasDiv = document.getElementById(egret.StageDelegate.canvas_div_name);
+                canvasDiv.addEventListener("click", function (e) {
+                    if (self._needShow) {
+                        self._needShow = false;
+                        egret.MainContext.instance.stage._changeSizeDispatchFlag = false;
+                        self._stageText._onClickHandler(e);
+                        HTMLInput.getInstance().show();
+                    }
+                    else {
+                        if (self._inputElement) {
+                            self.clearInputElement();
+                            self._inputElement.blur();
+                            self._inputElement = null;
+                        }
+                    }
+                });
+                self.initInputElement(true);
+                self.initInputElement(false);
+            }
+        };
+        //初始化输入框
+        __egretProto__.initInputElement = function (multiline) {
+            var self = this;
+            //增加1个空的textarea
+            var inputElement;
+            if (multiline) {
+                inputElement = document.createElement("textarea");
+                inputElement.style["resize"] = "none";
+                self._multiElement = inputElement;
+                inputElement.id = "egretTextarea";
+            }
+            else {
+                inputElement = document.createElement("input");
+                self._simpleElement = inputElement;
+                inputElement.id = "egretInput";
+            }
+            inputElement.type = "text";
+            self._inputDIV.appendChild(inputElement);
+            inputElement.setAttribute("tabindex", "-1");
+            inputElement.style.width = "1px";
+            inputElement.style.height = "12px";
+            self.initValue(inputElement);
+            inputElement.style.outline = "thin";
+            inputElement.style.background = "none";
+            inputElement.style.overflow = "hidden";
+            inputElement.style.wordBreak = "break-all";
+            //隐藏输入框
+            inputElement.style.opacity = 0;
+            inputElement.oninput = function () {
+                if (self._stageText) {
+                    self._stageText._onInput();
+                }
+            };
+        };
+        __egretProto__.show = function () {
+            var self = this;
+            var inputElement = self._inputElement;
+            //隐藏输入框
+            egret.__callAsync(function () {
+                inputElement.style.opacity = 1;
+            }, self);
+        };
+        __egretProto__.disconnectStageText = function (stageText) {
+            if (this._stageText == null || this._stageText == stageText) {
+                this.clearInputElement();
+                if (this._inputElement) {
+                    this._inputElement.blur();
+                }
+            }
+        };
+        __egretProto__.clearInputElement = function () {
+            var self = this;
+            if (self._inputElement) {
+                self._inputElement.value = "";
+                self._inputElement.onblur = null;
+                self._inputElement.style.width = "1px";
+                self._inputElement.style.height = "12px";
+                self._inputElement.style.left = "0px";
+                self._inputElement.style.top = "0px";
+                self._inputElement.style.opacity = 0;
+                var otherElement;
+                if (self._simpleElement == self._inputElement) {
+                    otherElement = self._multiElement;
+                }
+                else {
+                    otherElement = self._simpleElement;
+                }
+                otherElement.style.display = "block";
+                self._inputDIV.style.left = 0 + "px";
+                self._inputDIV.style.top = "-100px";
+            }
+            if (self._stageText) {
+                self._stageText._onDisconnect();
+                self._stageText = null;
+            }
+            egret.MainContext.instance.stage._changeSizeDispatchFlag = true;
+        };
+        __egretProto__.getInputElement = function (stageText) {
+            var self = this;
+            self.clearInputElement();
+            self._stageText = stageText;
+            if (self._stageText._multiline) {
+                self._inputElement = self._multiElement;
+            }
+            else {
+                self._inputElement = self._simpleElement;
+            }
+            var otherElement;
+            if (self._simpleElement == self._inputElement) {
+                otherElement = self._multiElement;
+            }
+            else {
+                otherElement = self._simpleElement;
+            }
+            otherElement.style.display = "none";
+            return self._inputElement;
+        };
+        HTMLInput.getInstance = function () {
+            if (HTMLInput._instance == null) {
+                HTMLInput._instance = new egret.HTMLInput();
+                HTMLInput._instance.initStageDelegateDiv();
+            }
+            return HTMLInput._instance;
+        };
+        return HTMLInput;
+    })();
+    egret.HTMLInput = HTMLInput;
+    HTMLInput.prototype.__class__ = "egret.HTMLInput";
 })(egret || (egret = {}));
 egret.StageText.create = function () {
     return new egret.HTML5StageText();

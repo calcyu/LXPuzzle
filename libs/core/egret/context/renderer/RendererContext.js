@@ -24,12 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var egret;
 (function (egret) {
     /**
@@ -62,7 +56,8 @@ var egret;
                 RendererContext.initBlendMode();
             }
         }
-        Object.defineProperty(RendererContext.prototype, "texture_scale_factor", {
+        var __egretProto__ = RendererContext.prototype;
+        Object.defineProperty(__egretProto__, "texture_scale_factor", {
             get: function () {
                 return this._texture_scale_factor;
             },
@@ -72,14 +67,14 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        RendererContext.prototype._setTextureScaleFactor = function (value) {
+        __egretProto__._setTextureScaleFactor = function (value) {
             this._texture_scale_factor = value;
         };
         /**
          * @method egret.RendererContext#clearScreen
          * @private
          */
-        RendererContext.prototype.clearScreen = function () {
+        __egretProto__.clearScreen = function () {
         };
         /**
          * 清除Context的渲染区域
@@ -89,7 +84,7 @@ var egret;
          * @param w {number}
          * @param h {numbe}
          */
-        RendererContext.prototype.clearRect = function (x, y, w, h) {
+        __egretProto__.clearRect = function (x, y, w, h) {
         };
         /**
          * 绘制图片
@@ -104,7 +99,7 @@ var egret;
          * @param destWidth {any}
          * @param destHeigh {any}
          */
-        RendererContext.prototype.drawImage = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
+        __egretProto__.drawImage = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight, repeat) {
             if (repeat === void 0) { repeat = "no-repeat"; }
             this.profiler.onDrawImage();
         };
@@ -121,10 +116,10 @@ var egret;
          * @param destWidth {any}
          * @param destHeigh {any}
          */
-        RendererContext.prototype.drawImageScale9 = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, offX, offY, destWidth, destHeight, rect) {
+        __egretProto__.drawImageScale9 = function (texture, sourceX, sourceY, sourceWidth, sourceHeight, offX, offY, destWidth, destHeight, rect) {
             return false;
         };
-        RendererContext.prototype._addOneDraw = function () {
+        __egretProto__._addOneDraw = function () {
             this.profiler.onDrawImage();
         };
         /**
@@ -132,7 +127,7 @@ var egret;
          * @method egret.RendererContext#setTransform
          * @param matrix {egret.Matri}
          */
-        RendererContext.prototype.setTransform = function (matrix) {
+        __egretProto__.setTransform = function (matrix) {
         };
         /**
          * 设置渲染alpha
@@ -140,14 +135,14 @@ var egret;
          * @param value {number}
          * @param blendMode {egret.BlendMod}
          */
-        RendererContext.prototype.setAlpha = function (value, blendMode) {
+        __egretProto__.setAlpha = function (value, blendMode) {
         };
         /**
          * 设置渲染文本参数
          * @method egret.RendererContext#setupFont
          * @param textField {TextField}
          */
-        RendererContext.prototype.setupFont = function (textField, style) {
+        __egretProto__.setupFont = function (textField, style) {
             if (style === void 0) { style = null; }
         };
         /**
@@ -157,7 +152,7 @@ var egret;
          * @returns {number}
          * @stable B 参数很可能会需要调整，和setupFont整合
          */
-        RendererContext.prototype.measureText = function (text) {
+        __egretProto__.measureText = function (text) {
             return 0;
         };
         /**
@@ -169,23 +164,25 @@ var egret;
          * @param y {number}
          * @param maxWidth {numbe}
          */
-        RendererContext.prototype.drawText = function (textField, text, x, y, maxWidth, style) {
+        __egretProto__.drawText = function (textField, text, x, y, maxWidth, style) {
             if (style === void 0) { style = null; }
             this.profiler.onDrawImage();
         };
-        RendererContext.prototype.strokeRect = function (x, y, w, h, color) {
+        __egretProto__.strokeRect = function (x, y, w, h, color) {
         };
-        RendererContext.prototype.pushMask = function (mask) {
+        __egretProto__.pushMask = function (mask) {
         };
-        RendererContext.prototype.popMask = function () {
+        __egretProto__.popMask = function () {
         };
-        RendererContext.prototype.onRenderStart = function () {
+        __egretProto__.onRenderStart = function () {
         };
-        RendererContext.prototype.onRenderFinish = function () {
+        __egretProto__.onRenderFinish = function () {
         };
-        RendererContext.prototype.setGlobalColorTransform = function (colorTransformMatrix) {
+        __egretProto__.setGlobalColorTransform = function (colorTransformMatrix) {
         };
-        RendererContext.prototype.setGlobalFilter = function (filterData) {
+        __egretProto__.setGlobalFilter = function (filterData) {
+        };
+        __egretProto__.drawCursor = function (x1, y1, x2, y2) {
         };
         RendererContext.createRendererContext = function (canvas) {
             return null;

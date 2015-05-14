@@ -52,6 +52,7 @@ var egret;
             this._lastY = 0;
             this.commandQueue = [];
         }
+        var __egretProto__ = Graphics.prototype;
         /**
          * 指定一种简单的单一颜色填充，在绘制时该填充将在随后对其他 Graphics 方法（如 lineTo() 或 drawCircle()）的调用中使用。
          * 调用 clear() 方法会清除填充。
@@ -59,10 +60,10 @@ var egret;
          * @param color {number} 填充的颜色
          * @param alpha {number} 填充的 Alpha 值
          */
-        Graphics.prototype.beginFill = function (color, alpha) {
+        __egretProto__.beginFill = function (color, alpha) {
             if (alpha === void 0) { alpha = 1; }
         };
-        Graphics.prototype._setStyle = function (colorStr) {
+        __egretProto__._setStyle = function (colorStr) {
         };
         /**
          * 绘制一个矩形
@@ -72,7 +73,7 @@ var egret;
          * @param width {number} 矩形的宽度（以像素为单位）。
          * @param height {number} 矩形的高度（以像素为单位）。
          */
-        Graphics.prototype.drawRect = function (x, y, width, height) {
+        __egretProto__.drawRect = function (x, y, width, height) {
             this.checkRect(x, y, width, height);
         };
         /**
@@ -82,7 +83,7 @@ var egret;
          * @param y {number} 相对于父显示对象注册点的圆心的 y 位置（以像素为单位）。
          * @param r {number} 圆的半径（以像素为单位）。
          */
-        Graphics.prototype.drawCircle = function (x, y, r) {
+        __egretProto__.drawCircle = function (x, y, r) {
             this.checkRect(x - r, y - r, 2 * r, 2 * r);
         };
         /**
@@ -95,7 +96,7 @@ var egret;
          * @param ellipseWidth {number} 用于绘制圆角的椭圆的宽度（以像素为单位）。
          * @param ellipseHeight {number} 用于绘制圆角的椭圆的高度（以像素为单位）。 （可选）如果未指定值，则默认值与为 ellipseWidth 参数提供的值相匹配。
          */
-        Graphics.prototype.drawRoundRect = function (x, y, width, height, ellipseWidth, ellipseHeight) {
+        __egretProto__.drawRoundRect = function (x, y, width, height, ellipseWidth, ellipseHeight) {
             this.checkRect(x, y, width, height);
         };
         /**
@@ -106,7 +107,7 @@ var egret;
          * @param width {number} 矩形的宽度（以像素为单位）。
          * @param height {number} 矩形的高度（以像素为单位）。
          */
-        Graphics.prototype.drawEllipse = function (x, y, width, height) {
+        __egretProto__.drawEllipse = function (x, y, width, height) {
             this.checkRect(x - width, y - height, 2 * width, 2 * height);
         };
         /**
@@ -121,7 +122,7 @@ var egret;
          * @param joints {string} 指定用于拐角的连接外观的类型。
          * @param miterLimit {number} 用于表示剪切斜接的极限值的数字。
          */
-        Graphics.prototype.lineStyle = function (thickness, color, alpha, pixelHinting, scaleMode, caps, joints, miterLimit) {
+        __egretProto__.lineStyle = function (thickness, color, alpha, pixelHinting, scaleMode, caps, joints, miterLimit) {
             if (thickness === void 0) { thickness = NaN; }
             if (color === void 0) { color = 0; }
             if (alpha === void 0) { alpha = 1.0; }
@@ -137,7 +138,7 @@ var egret;
          * @param x {number} 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
          * @param y {number} 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
          */
-        Graphics.prototype.lineTo = function (x, y) {
+        __egretProto__.lineTo = function (x, y) {
             this.checkPoint(x, y);
         };
         /**
@@ -150,7 +151,7 @@ var egret;
          * @param anchorX {number} 一个数字，指定下一个锚点相对于父显示对象注册点的水平位置。
          * @param anchorY {number} 一个数字，指定下一个锚点相对于父显示对象注册点的垂直位置。
          */
-        Graphics.prototype.curveTo = function (controlX, controlY, anchorX, anchorY) {
+        __egretProto__.curveTo = function (controlX, controlY, anchorX, anchorY) {
             this.checkPoint(controlX, controlY);
             this.checkPoint(anchorX, anchorY);
         };
@@ -160,14 +161,14 @@ var egret;
          * @param x {number} 一个表示相对于父显示对象注册点的水平位置的数字（以像素为单位）。
          * @param y {number} 一个表示相对于父显示对象注册点的垂直位置的数字（以像素为单位）。
          */
-        Graphics.prototype.moveTo = function (x, y) {
+        __egretProto__.moveTo = function (x, y) {
             this.checkPoint(x, y);
         };
         /**
          * 清除绘制到此 Graphics 对象的图形，并重置填充和线条样式设置。
          * @method egret.Graphics#clear
          */
-        Graphics.prototype.clear = function () {
+        __egretProto__.clear = function () {
             this._minX = 0;
             this._minY = 0;
             this._maxX = 0;
@@ -178,11 +179,11 @@ var egret;
          * 对从上一次调用 beginFill()方法之后添加的直线和曲线应用填充。
          * @method egret.Graphics#endFill
          */
-        Graphics.prototype.endFill = function () {
+        __egretProto__.endFill = function () {
         };
-        Graphics.prototype._draw = function (renderContext) {
+        __egretProto__._draw = function (renderContext) {
         };
-        Graphics.prototype.checkRect = function (x, y, w, h) {
+        __egretProto__.checkRect = function (x, y, w, h) {
             if (this._firstCheck) {
                 this._firstCheck = false;
                 this._minX = x;
@@ -197,7 +198,7 @@ var egret;
                 this._maxY = Math.max(this._maxY, y + h);
             }
         };
-        Graphics.prototype.checkPoint = function (x, y) {
+        __egretProto__.checkPoint = function (x, y) {
             if (this._firstCheck) {
                 this._firstCheck = false;
                 this._minX = x;
@@ -214,7 +215,7 @@ var egret;
             this._lastX = x;
             this._lastY = y;
         };
-        Graphics.prototype._measureBounds = function () {
+        __egretProto__._measureBounds = function () {
             return egret.Rectangle.identity.initialize(this._minX, this._minY, this._maxX - this._minX, this._maxY - this._minY);
         };
         return Graphics;
@@ -227,6 +228,7 @@ var egret;
             this.thisObject = thisObject;
             this.args = args;
         }
+        var __egretProto__ = Command.prototype;
         return Command;
     })();
     Command.prototype.__class__ = "egret.Command";

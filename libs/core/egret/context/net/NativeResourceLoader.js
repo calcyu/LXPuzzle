@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 /**
  * Copyright (c) 2014,Egret-Labs.org
  * All rights reserved.
@@ -43,48 +37,49 @@ var egret;
             this._path = null;
             this._bytesTotal = 0;
         }
-        NativeResourceLoader.prototype.load = function (path, bytesTotal) {
+        var __egretProto__ = NativeResourceLoader.prototype;
+        __egretProto__.load = function (path, bytesTotal) {
             this._downCount = 0;
             this._path = path;
             this._bytesTotal = bytesTotal;
             this.reload();
         };
-        NativeResourceLoader.prototype.reload = function () {
+        __egretProto__.reload = function () {
             if (this._downCount >= 3) {
                 this.downloadFileError();
                 return;
             }
-            if (egret_native.isRecordExists(this._path)) {
-                this.loadOver();
-                return;
-            }
-            else if (egret_native.isFileExists(this._path)) {
-                this.loadOver();
-                return;
-            }
-            else {
-                this._downCount++;
-                var promise = egret.PromiseObject.create();
-                var self = this;
-                promise.onSuccessFunc = function () {
-                    self.loadOver();
-                };
-                promise.onErrorFunc = function () {
-                    self.reload();
-                };
-                promise.downloadingSizeFunc = function (bytesLoaded) {
-                    self.downloadingProgress(bytesLoaded);
-                };
-                egret_native.download(this._path, this._path, promise);
-            }
+            //if (egret_native.isRecordExists(this._path)) {//卡里
+            //    this.loadOver();
+            //    return;
+            //}
+            //else if (egret_native.isFileExists(this._path)){
+            //    this.loadOver();
+            //    return;
+            //}
+            //else {
+            this._downCount++;
+            var promise = egret.PromiseObject.create();
+            var self = this;
+            promise.onSuccessFunc = function () {
+                self.loadOver();
+            };
+            promise.onErrorFunc = function () {
+                self.reload();
+            };
+            promise.downloadingSizeFunc = function (bytesLoaded) {
+                self.downloadingProgress(bytesLoaded);
+            };
+            egret_native.download(this._path, this._path, promise);
+            //}
         };
-        NativeResourceLoader.prototype.downloadingProgress = function (bytesLoaded) {
+        __egretProto__.downloadingProgress = function (bytesLoaded) {
             egret.ProgressEvent.dispatchProgressEvent(this, egret.ProgressEvent.PROGRESS, bytesLoaded, this._bytesTotal);
         };
-        NativeResourceLoader.prototype.downloadFileError = function () {
+        __egretProto__.downloadFileError = function () {
             this.dispatchEvent(new egret.Event(egret.IOErrorEvent.IO_ERROR));
         };
-        NativeResourceLoader.prototype.loadOver = function () {
+        __egretProto__.loadOver = function () {
             this.dispatchEvent(new egret.Event(egret.Event.COMPLETE));
         };
         return NativeResourceLoader;

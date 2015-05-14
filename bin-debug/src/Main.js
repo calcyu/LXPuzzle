@@ -24,19 +24,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         _super.call(this);
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
-    Main.prototype.onAddToStage = function (event) {
+    var __egretProto__ = Main.prototype;
+    __egretProto__.onAddToStage = function (event) {
         //设置加载进度界面
         //Config to load process interface
         this.loadingView = new LoadingUI();
@@ -50,7 +45,7 @@ var Main = (function (_super) {
      * 配置文件加载完成,开始预加载preload资源组。
      * configuration file loading is completed, start to pre-load the preload resource group
      */
-    Main.prototype.onConfigComplete = function (event) {
+    __egretProto__.onConfigComplete = function (event) {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.addEventListener(RES.ResourceEvent.GROUP_LOAD_ERROR, this.onResourceLoadError, this);
@@ -61,7 +56,7 @@ var Main = (function (_super) {
      * preload资源组加载完成
      * Preload resource group is loaded
      */
-    Main.prototype.onResourceLoadComplete = function (event) {
+    __egretProto__.onResourceLoadComplete = function (event) {
         if (event.groupName == "preload") {
             this.stage.removeChild(this.loadingView);
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
@@ -74,7 +69,7 @@ var Main = (function (_super) {
     * 资源组加载出错
      *  The resource group loading failed
     */
-    Main.prototype.onResourceLoadError = function (event) {
+    __egretProto__.onResourceLoadError = function (event) {
         //TODO
         console.warn("Group:" + event.groupName + " has failed to load");
         //忽略加载失败的项目
@@ -85,7 +80,7 @@ var Main = (function (_super) {
      * preload资源组加载进度
      * Loading process of preload resource group
      */
-    Main.prototype.onResourceProgress = function (event) {
+    __egretProto__.onResourceProgress = function (event) {
         if (event.groupName == "preload") {
             this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
@@ -94,7 +89,7 @@ var Main = (function (_super) {
      * 创建游戏场景
      * Create a game scene
      */
-    Main.prototype.createGameScene = function () {
+    __egretProto__.createGameScene = function () {
         var game = new LXPuzzle.GameContainer();
         this.addChild(game);
     };

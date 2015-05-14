@@ -35,6 +35,7 @@ var egret;
     var EventPhase = (function () {
         function EventPhase() {
         }
+        var __egretProto__ = EventPhase.prototype;
         /**
          * 捕获阶段，是事件流的第一个阶段。
          * @constant {number} egret.EventPhase.CAPTURING_PHASE

@@ -38,6 +38,7 @@ var egret;
             this.downloadingSizeFunc = null;
             this.downloadingSizeThisObject = null;
         }
+        var __egretProto__ = PromiseObject.prototype;
         PromiseObject.create = function () {
             if (PromiseObject.promiseObjectList.length) {
                 return PromiseObject.promiseObjectList.pop();
@@ -46,7 +47,7 @@ var egret;
                 return new egret.PromiseObject();
             }
         };
-        PromiseObject.prototype.onSuccess = function () {
+        __egretProto__.onSuccess = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -56,7 +57,7 @@ var egret;
             }
             this.destroy();
         };
-        PromiseObject.prototype.onError = function () {
+        __egretProto__.onError = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -66,7 +67,7 @@ var egret;
             }
             this.destroy();
         };
-        PromiseObject.prototype.downloadingSize = function () {
+        __egretProto__.downloadingSize = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -75,7 +76,7 @@ var egret;
                 this.downloadingSizeFunc.apply(this.downloadingSizeThisObject, args);
             }
         };
-        PromiseObject.prototype.destroy = function () {
+        __egretProto__.destroy = function () {
             this.onSuccessFunc = undefined;
             this.onSuccessThisObject = undefined;
             this.onErrorFunc = undefined;

@@ -32,6 +32,7 @@ var egret;
     var WebGLUtils = (function () {
         function WebGLUtils() {
         }
+        var __egretProto__ = WebGLUtils.prototype;
         WebGLUtils.compileProgram = function (gl, vertexSrc, fragmentSrc) {
             var fragmentShader = WebGLUtils.compileFragmentShader(gl, fragmentSrc);
             var vertexShader = WebGLUtils.compileVertexShader(gl, vertexSrc);
