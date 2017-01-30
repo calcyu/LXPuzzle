@@ -1,0 +1,12 @@
+{"file":"UI.png","frames":{
+"start_btn":{"x":1,"y":585,"w":249,"h":59,"offX":0,"offY":0,"sourceW":249,"sourceH":59},
+"left":{"x":439,"y":1,"w":18,"h":39,"offX":0,"offY":0,"sourceW":18,"sourceH":39},
+"right":{"x":419,"y":1,"w":18,"h":39,"offX":0,"offY":0,"sourceW":18,"sourceH":39},
+"raido":{"x":459,"y":1,"w":12,"h":12,"offX":0,"offY":0,"sourceW":12,"sourceH":12},
+"frame2":{"x":1,"y":391,"w":178,"h":136,"offX":0,"offY":0,"sourceW":179,"sourceH":136},
+"frame1":{"x":181,"y":391,"w":177,"h":136,"offX":0,"offY":0,"sourceW":177,"sourceH":136},
+"raido_bg":{"x":1,"y":529,"w":358,"h":54,"offX":0,"offY":0,"sourceW":358,"sourceH":54},
+"back_btn":{"x":360,"y":493,"w":28,"h":30,"offX":0,"offY":0,"sourceW":28,"sourceH":30},
+"dialog":{"x":1,"y":1,"w":416,"h":388,"offX":1,"offY":0,"sourceW":418,"sourceH":389},
+"playAgain_btn":{"x":360,"y":391,"w":149,"h":49,"offX":0,"offY":0,"sourceW":149,"sourceH":49},
+"share_btn":{"x":360,"y":442,"w":149,"h":49,"offX":0,"offY":0,"sourceW":149,"sourceH":49}}}
